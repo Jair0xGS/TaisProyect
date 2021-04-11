@@ -18,6 +18,7 @@ class CreateAuditoriasTable extends Migration
             $table->string("tabla");
             $table->string("accion");
             $table->string("terminal");
+            $table->string("nombre");
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->json("antes");
