@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Empresa;
 use App\Proceso;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,14 @@ class ProcesoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("proceso.index");
+        $empresa = Empresa::findOrfail($request->empresa) ;
+        $data = $empresa->procesos;
+        return view("proceso.index",compact("data"));
     }
 
-    /**
+    /*
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 //***********
 //proceso routes
-Route::resource("/proceso",ProcesoController::class);
+Route::resource("/empresa/{empresa}/proceso",ProcesoController::class);
 //***********
 
 
