@@ -21,6 +21,14 @@ Route::get('/', function () {
 Route::resource("/proceso",ProcesoController::class);
 //***********
 
+
+
+//#####################
+//empresa routes
+Route::resource('/empresa', EmpresaController::class);
+
+
+//#####################
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
