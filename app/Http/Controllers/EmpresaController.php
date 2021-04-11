@@ -15,9 +15,7 @@ class EmpresaController extends Controller
 
     public function index(Request $request)
     {
-        $buscarpor=$request->get('buscarPor');
-        $empresa = Empresa::where('razonSocial','like','%'.$buscarpor.'%')->paginate($this::PAGINACION);
-        return view('empresas.mostrar', compact('empresa','buscarpor'));
+
     }
     /**
      * Show the form for creating a new resource.
