@@ -14,7 +14,7 @@ class ProcesoController extends Controller
      */
     public function index()
     {
-        //
+        return view("proceso.index");
     }
 
     /**
@@ -35,25 +35,20 @@ class ProcesoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'empresa_id'=>'required|exists:empresas',
-            'tipo_proceso_id'=>'required|exists:tipo_procesos',
+
+        $request->validate([
+            'empresa_id'=>'required|exists:empresas,id',
+            'tipo_proceso_id'=>'required|exists:tipo_procesos,id',
             'nombre'=>'required',
 
-        ],
-            [
-                'required'=>'Debe especificar un :attribute',
-                'exists'=>':attribute debe existir en la base de datos',
-                'filled'=>':attribure debe contener elementos',
-            ]
+        ]
         );
         $proceso = new Proceso();
         $proceso->empresa_id =$request->empresa_id;
         $proceso->tipo_proceso_id =$request->tipo_proceso_id;
         $proceso->nombre =$request->nombre;
         $proceso->save();
-
-        return $proceso;
+        return json_encode($proceso);
     }
 
     /**
