@@ -15,6 +15,13 @@ class CreatePersonalsTable extends Migration
     {
         Schema::create('personals', function (Blueprint $table) {
             $table->id();
+            $table->string("nombres");
+            $table->string("apellidos");
+            $table->string("correo")->unique();
+            $table->unsignedBigInteger('puesto_id');
+            $table->foreign('puesto_id')->references('id')->on('puestos');
+            $table->string("telefono");
+
             $table->timestamps();
         });
     }
