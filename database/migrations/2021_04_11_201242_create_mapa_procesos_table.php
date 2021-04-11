@@ -15,6 +15,10 @@ class CreateMapaProcesosTable extends Migration
     {
         Schema::create('mapa_procesos', function (Blueprint $table) {
             $table->id();
+            $table->string("descripcion");
+            $table->unsignedBigInteger('empresa_id');
+            $table->foreign('empresa_id')->references('id')->on('empresas');
+
             $table->timestamps();
         });
     }
