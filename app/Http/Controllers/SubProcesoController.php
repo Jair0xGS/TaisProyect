@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Empresa;
 use App\Personal;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SubProcesoController extends Controller
 {
@@ -22,10 +26,11 @@ class SubProcesoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
 
-        $personals = Personal::all();
+        $empresa = Empresa::findOrFail($request->empresa);
+        $personals =$empresa->personals;
         return view("subproceso.register",compact("personals"));
     }
 
@@ -37,7 +42,39 @@ class SubProcesoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+                'personal_id'=>'required|exists:personals,id',
+                'nombre'=>'required',
+
+            ]
+        );
+        DB::transaction(function () use ($request){
+            try {
+                $proceso = new Proceso();
+                $proceso->empresa_id =$request->empresa;
+                $proceso->personal_id =$request->personal_id;
+                $proceso->proceso_id =$request->proceso;
+                $proceso->nombre =$request->nombre;
+                $proceso->save();
+
+                $auditoria = new Auditoria();
+                $auditoria->tabla ="sub_proceso";
+                $auditoria->accion ="crear";
+                $auditoria->terminal =$request->ip();
+                $auditoria->empresa_id =$request->empresa;
+                $auditoria->user_id =Auth::id();
+                $auditoria->nombre =Auth::user()->name;
+                $auditoria->save();
+                $auditoria->despues = $proceso->toJson();
+            }catch (\Exception $exception ){
+
+                DB::rollBack();
+                return redirect()->back()->with("error","fallo al crear sub proceso");
+            }
+        });
+        return redirect()->route("proceso.show",[$request->empresa,$request->proceso])->with("success","sub proceso creado correctamente");
+
     }
 
     /**
