@@ -124,9 +124,6 @@ class ProcesoController extends Controller
         DB::beginTransaction();
         try {
             $proceso = Proceso::findOrFail($request->proceso);
-            $proceso->tipo_proceso_id =$request->tipo_proceso_id;
-            $proceso->nombre =$request->nombre;
-            $proceso->save();
 
             $auditoria = new Auditoria();
             $auditoria->tabla ="proceso";
@@ -135,6 +132,10 @@ class ProcesoController extends Controller
             $auditoria->empresa_id =$request->empresa_id;
             $auditoria->user_id =Auth::id();
             $auditoria->nombre =Auth::user()->name;
+            $auditoria->antes = $proceso->toJson();
+            $proceso->tipo_proceso_id =$request->tipo_proceso_id;
+            $proceso->nombre =$request->nombre;
+            $proceso->save();
             $auditoria->despues = $proceso->toJson();
             $auditoria->save();
             DB::commit();
@@ -154,8 +155,30 @@ class ProcesoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $proceso = Proceso::findOrFail($request->proceso);
+
+            $auditoria = new Auditoria();
+            $auditoria->tabla ="proceso";
+            $auditoria->accion ="borrar";
+            $auditoria->terminal =$request->ip();
+            $auditoria->empresa_id =$request->empresa;
+            $auditoria->user_id =Auth::id();
+            $auditoria->nombre =Auth::user()->name;
+            $auditoria->antes = $proceso->toJson();
+            $proceso->delete();
+            $auditoria->save();
+            DB::commit();
+            return redirect()->route("proceso.index",$request->empresa)->with("success","proceso creado correctamente");
+        }catch (\Throwable $exception ){
+
+            DB::rollBack();
+            report($exception);
+            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al crear proceso");
+        }
+
     }
 }
