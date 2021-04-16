@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Auditoria;
+use App\Empresa;
 
 class EmpresaController extends Controller
 {
@@ -15,7 +18,9 @@ class EmpresaController extends Controller
 
     public function index(Request $request)
     {
-
+        $buscarpor=$request->get('buscarPor');
+        $empresa = Empresa::where('nombre','like','%'.$buscarpor.'%')->paginate($this::PAGINACION);
+        return view('empresas.index', compact('empresa','buscarpor'));
     }
     /**
      * Show the form for creating a new resource.
@@ -209,7 +214,6 @@ class EmpresaController extends Controller
                 'Email' => $empresaAntes->email,
                 'Direccion' => $empresaAntes->direccion,
             ], JSON_UNESCAPED_UNICODE);
-
             $auditoria->save();
 
             Empresa::find($id)->forceDelete();
