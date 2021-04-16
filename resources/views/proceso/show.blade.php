@@ -1,13 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.plantilla')
 
-@section('content')
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col">
-                <h1>SubProcesos - {{$data->nombre}}</h1>
-
+@section('contenido')
+    <div class="container">
+        <div class="row justify-content-center ">
+            <div class="color-titulo m-5" style="font-size: 30px">
+                <i class="fas fa-briefcase color-icono"></i>
+                <span class="font-weight-bold ml-3" > {{$data->nombre}} - SUBPROCESOS</span>
             </div>
-
         </div>
         <div class="row mt-5">
             <div class="container">

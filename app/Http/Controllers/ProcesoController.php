@@ -6,6 +6,7 @@ use App\Auditoria;
 use App\Empresa;
 use App\Proceso;
 use App\TipoProceso;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -63,9 +64,9 @@ class ProcesoController extends Controller
                 $auditoria->tabla ="proceso";
                 $auditoria->accion ="crear";
                 $auditoria->terminal =$request->ip();
+                $auditoria->empresa_id =$request->empresa;
                 $auditoria->user_id =Auth::id();
                 $auditoria->nombre =Auth::user()->name;
-                $auditoria->antes ="{}";
                 $auditoria->despues = $proceso->toJson();
                 $auditoria->save();
             }catch (\Exception $exception ){
@@ -96,9 +97,11 @@ class ProcesoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $data = Proceso::findOrFail(Request()->proceso);
+        $tipo_procesos = TipoProceso::all();
+        return view("proceso.edit",compact("tipo_procesos",'data'));
     }
 
     /**
@@ -108,9 +111,42 @@ class ProcesoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+        $request->validate([
+                'empresa_id'=>'required|exists:empresas,id',
+                'tipo_proceso_id'=>'required|exists:tipo_procesos,id',
+                'nombre'=>'required',
+
+            ]
+        );
+        DB::beginTransaction();
+        try {
+            $proceso = Proceso::findOrFail($request->proceso);
+
+            $auditoria = new Auditoria();
+            $auditoria->tabla ="proceso";
+            $auditoria->accion ="editar";
+            $auditoria->terminal =$request->ip();
+            $auditoria->empresa_id =$request->empresa_id;
+            $auditoria->user_id =Auth::id();
+            $auditoria->nombre =Auth::user()->name;
+            $auditoria->antes = $proceso->toJson();
+            $proceso->tipo_proceso_id =$request->tipo_proceso_id;
+            $proceso->nombre =$request->nombre;
+            $proceso->save();
+            $auditoria->despues = $proceso->toJson();
+            $auditoria->save();
+            DB::commit();
+            return redirect()->route("proceso.index",$request->empresa)->with("success","proceso creado correctamente");
+        }catch (\Throwable $exception ){
+
+            DB::rollBack();
+            report($exception);
+            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al crear proceso");
+        }
+
     }
 
     /**
@@ -119,8 +155,30 @@ class ProcesoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $proceso = Proceso::findOrFail($request->proceso);
+
+            $auditoria = new Auditoria();
+            $auditoria->tabla ="proceso";
+            $auditoria->accion ="borrar";
+            $auditoria->terminal =$request->ip();
+            $auditoria->empresa_id =$request->empresa;
+            $auditoria->user_id =Auth::id();
+            $auditoria->nombre =Auth::user()->name;
+            $auditoria->antes = $proceso->toJson();
+            $proceso->delete();
+            $auditoria->save();
+            DB::commit();
+            return redirect()->route("proceso.index",$request->empresa)->with("success","proceso creado correctamente");
+        }catch (\Throwable $exception ){
+
+            DB::rollBack();
+            report($exception);
+            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al crear proceso");
+        }
+
     }
 }

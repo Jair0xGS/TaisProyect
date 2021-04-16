@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@@extends('layouts.plantilla')
 
-@section('content')
+@section('contenido')
     @php
 
         function eClass ($name) {
@@ -13,9 +13,11 @@
     @endphp
     <div class="container mt-5">
         <div class="row">
-            <div class="col-12">
-                <h1>Creacion SubProceso</h1>
-
+            <div class="row justify-content-center ">
+                <div class="color-titulo m-5" style="font-size: 30px">
+                    <i class="fas fa-briefcase color-icono"></i>
+                    <span class="font-weight-bold ml-3" >EDITAR PROCESO</span>
+                </div>
             </div>
 
 

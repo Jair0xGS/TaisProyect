@@ -329,6 +329,7 @@
         <!-- Main content -->
         <section class="content">
 
+            @include('layouts.messages')
             @yield('contenido')
 
         </section>

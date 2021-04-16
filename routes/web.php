@@ -19,6 +19,8 @@ Route::get('/', 'HomeController@index')->name('home');
 //***********
 //proceso routes
 Route::resource("/empresa/{empresa}/proceso",ProcesoController::class);
+Route::resource("/empresa/{empresa}/proceso",ProcesoController::class);
+Route::resource("/empresa/{empresa}/proceso/{proceso}/subproceso",SubProcesoController::class);
 //***********
 
 
