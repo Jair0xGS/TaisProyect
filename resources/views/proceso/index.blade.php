@@ -16,7 +16,7 @@
 
                     </div>
                     <div class="col-2 mb-3">
-                        <a href="#" class="btn btn-primary" role="button" aria-pressed="true">
+                        <a href="{{route('proceso.create',Request()->empresa)}}" class="btn btn-primary" role="button" aria-pressed="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                             </svg>
@@ -44,10 +44,10 @@
                                         {{$elem->nombre}}
                                     </td>
                                     <td>
-                                        {{$elem->tipo->tipo}}
+                                        {{$elem->tipoProceso->tipo}}
                                     </td>
                                     <td>
-                                        <a href="{{route('proceso.show',$elem->id)}}" class="btn btn-success" role="button" aria-pressed="true">
+                                        <a href="{{route('proceso.show',[Request()->empresa,$elem->id])}}" class="btn btn-success" role="button" aria-pressed="true">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                 <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>

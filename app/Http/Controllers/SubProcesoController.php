@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Personal;
 use Illuminate\Http\Request;
 
 class SubProcesoController extends Controller
@@ -23,7 +24,9 @@ class SubProcesoController extends Controller
      */
     public function create()
     {
-        //
+
+        $personals = Personal::all();
+        return view("subproceso.register",compact("personals"));
     }
 
     /**
