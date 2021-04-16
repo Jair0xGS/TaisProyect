@@ -158,13 +158,13 @@
                                         <li class="nav-item">
                                             <a href="{{URL::to('/empresa')}}" class="nav-link offset-1">
                                                 <i class="fas fa-eye nav-icon"></i>
-                                                <p>MOSTRAR</p>
+                                                <p>Mostrar</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
+                                            <a href="{{route('empresa.create')}}" class="nav-link offset-1">
                                                 <i class="far fa-plus-square nav-icon"></i>
-                                                <p>REGISTRAR</p>
+                                                <p>Registrar</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -180,21 +180,15 @@
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-cogs"></i>
                                         <p>
-                                            ROLES
+                                            ÁREAS
                                             <!-- <i class="right fas fa-angle-left"></i>-->
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
+                                            <a href="{{URL::to('/area')}}" class="nav-link offset-1">
                                                 <i class="fas fa-eye nav-icon"></i>
-                                                <p>MOSTRAR</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
-                                                <i class="far fa-plus-square nav-icon"></i>
-                                                <p>REGISTRAR</p>
+                                                <p>Mostrar</p>
                                             </a>
                                         </li>
                                     </ul>

@@ -26,9 +26,18 @@ Route::resource("/empresa/{empresa}/proceso",ProcesoController::class);
 //#####################
 //empresa routes
 Route::resource('/empresa', EmpresaController::class);
-
+Route::get('cancelarEmpresa', function(){
+    return redirect()->route('empresa.index')->with('datos','¡Accion cancelada!');
+})->name('cancelarEmpresa');
+//#####################
 
 //#####################
+//area routes
+Route::resource('/area', AreaController::class);
+
+//#####################
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

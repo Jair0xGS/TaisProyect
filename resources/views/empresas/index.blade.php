@@ -1,3 +1,5 @@
+@role('super_admin')
+
 @extends('layouts.plantilla')
 
 @section('contenido')
@@ -17,7 +19,6 @@
                     <span class="ml-2" >REGISTRAR EMPRESA</span>
                 </a>
             </div>
-            @if(count($empresa)>0)
                 <div class="col-md-6 col-sm-12">
                     <form class="form-inline my-2 my-lg-0 float-right">
                         <div class="form-group has-search">
@@ -27,7 +28,6 @@
                         </div>
                     </form>
                 </div>
-            @endif
         </div>
 
         <br><br>
@@ -64,9 +64,9 @@
                         <td>{{$itemEmpresa->email}}</td>
                         <td>{{$itemEmpresa->direccion}}</td>
                         <td>
-                            <div class="color-titulo" style="font-size: 25px">
-                                <a href="{{route('empresa.edit',$itemEmpresa->id)}}"><i class="fas fa-pen-square btn-editar"></i></a>
-                                <a href="" data-toggle="modal" data-target="<?php echo "#an".$itemEmpresa->id; ?>"><i class="fas fa-trash-alt ml-4 btn-eliminar"></i></a>
+                            <div class="color-titulo row" style="font-size: 25px">
+                                <a href="{{route('empresa.edit',$itemEmpresa->id)}}" class="col-6 p-0"><i class="fas fa-pen-square btn-editar"></i></a>
+                                <a href="" data-toggle="modal" data-target="<?php echo "#an".$itemEmpresa->id; ?>" class="col-6 p-0"><i class="fas fa-trash-alt btn-eliminar"></i></a>
 
                             </div>
 
@@ -119,3 +119,4 @@
     </div>
 
 @endsection
+@endrole

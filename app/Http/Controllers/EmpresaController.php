@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Auditoria;
 use App\Empresa;
+use App\Http\Controllers\DB;
 
 class EmpresaController extends Controller
 {
@@ -16,7 +18,7 @@ class EmpresaController extends Controller
      */
     const PAGINACION=8;
 
-    public function index(Request $request)
+     public function index(Request $request)
     {
         $buscarpor=$request->get('buscarPor');
         $empresa = Empresa::where('nombre','like','%'.$buscarpor.'%')->paginate($this::PAGINACION);
@@ -44,7 +46,7 @@ class EmpresaController extends Controller
             'descripcion'=>'required',
             'ruc'=>'required|numeric',
             'nombre'=>'required',
-            'telefono'=>'required|max:9',
+            'telefono'=>'required|max:999999999|numeric',
             'email'=>'required|email',
             'direccion'=>'required'
             ],
@@ -55,13 +57,14 @@ class EmpresaController extends Controller
                 'nombre.required'=>'Ingrese el Nombre de la empresa.',
                 'telefono.required'=>'Ingrese un número de teléfono.',
                 'telefono.max'=>'No sobrepase los 9 caracteres para el teléfono.',
+                'telefono.numeric'=>'Todos los caracteres deben ser numéricos.',
                 'email.required'=>'Ingrese un email.',
                 'email.email'=>'Ingresar correo con estructura válida.',
                 'direccion.required'=>'Ingrese una dirección.'
             ]
         );
 
-        DB::transaction(function ($request) {
+       // DB::transaction(function ($request) {
 
             $empresa= new Empresa();
             $empresa->ruc=$request->ruc;
@@ -90,8 +93,29 @@ class EmpresaController extends Controller
 
             $auditoria->save();
 
+            $user = new User();
+            $user->name = $request->ruc."_user";
+            $user->email= "admin_".$request->ruc."@bpm.com";
+            $user->password= \Illuminate\Support\Facades\Hash::make("password");
+            $user->assignRole('admin');
+            $user->save();
+
+            $auditoriaU = new Auditoria();
+            $auditoriaU->tabla = 'USER';
+            $auditoriaU->accion = 'REGISTRAR';
+            $auditoriaU->terminal = gethostbyname(gethostname());
+            $auditoriaU->user_id = Auth::user()->id;
+            $auditoriaU->nombre = Auth::user()->name;
+            $auditoriaU->despues = json_encode([
+                'Nombre' => $user->name,
+                'Email' => $user->email,
+                'Rol' => 'admin'
+            ], JSON_UNESCAPED_UNICODE);
+
+            $auditoriaU->save();
+
             return redirect()->route('empresa.index')->with('datos', '¡Registro nuevo guardado!');
-        });
+        //});
     }
 
     /**
@@ -130,7 +154,7 @@ class EmpresaController extends Controller
             'descripcion'=>'required',
             'ruc'=>'required|numeric',
             'nombre'=>'required',
-            'telefono'=>'required|max:9',
+            'telefono'=>'required|max:999999999|numeric',
             'email'=>'required|email',
             'direccion'=>'required'
         ],
@@ -141,13 +165,14 @@ class EmpresaController extends Controller
                 'nombre.required'=>'Ingrese el Nombre de la empresa.',
                 'telefono.required'=>'Ingrese un número de teléfono.',
                 'telefono.max'=>'No sobrepase los 9 caracteres para el teléfono.',
+                'telefono.numeric'=>'Todos los caracteres deben ser numéricos.',
                 'email.required'=>'Ingrese un email.',
                 'email.email'=>'Ingresar correo con estructura válida.',
                 'direccion.required'=>'Ingrese una dirección.'
             ]
         );
 
-        DB::transaction(function ($request, $id) {
+        //DB::transaction(function ($request, $id) {
 
             $empresaAntes=Empresa::findOrFail($id);
             $empresa=Empresa::findOrFail($id);
@@ -185,8 +210,8 @@ class EmpresaController extends Controller
 
             $auditoria->save();
 
-            return redirect()->route('empresa.index')->with('datos', '¡Registro nuevo guardado!');
-        });
+            return redirect()->route('empresa.index')->with('datos', '¡Registro actualizado con éxito!');
+        //});
     }
 
     /**

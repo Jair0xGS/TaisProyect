@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use App\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,5 +15,17 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(EmpresaSeeder::class);
         $this->call(TipoProcesoSeeder::class);
+        DB::table('users')->insert([
+            'name' => "Administrador",
+            'email' => "admin@admin.com",
+            'password' => \Illuminate\Support\Facades\Hash::make("password"),
+
+        ]);
+        $role= Role::create(['name' => 'super_admin']);// ejemplo de rol
+        $role= Role::create(['name' => 'admin']);// ejemplo de rol
+        $role= Role::create(['name' => 'user']);// ejemplo de rol
+        $userSuperAdmin = User::findOrFail(1);// buscan sus usuario
+        $userSuperAdmin->assignRole('super_admin'); // agregan su rol
+
     }
 }

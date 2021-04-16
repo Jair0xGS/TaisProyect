@@ -37,11 +37,7 @@ class AreaController extends Controller
     {
         //
 
-        DB::transaction(function () {
-            DB::table('users')->update(['votes' => 1]);
 
-            DB::table('posts')->delete();
-        });
     }
 
     /**
