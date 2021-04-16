@@ -13,5 +13,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(EmpresaSeeder::class);
         $this->call(TipoProcesoSeeder::class);
+        DB::table('users')->insert([
+            'name' => "Administrador",
+            'email' => "admin@admin.com",
+            'password' => \Illuminate\Support\Facades\Hash::make("password"),
+
+        ]);
     }
 }
