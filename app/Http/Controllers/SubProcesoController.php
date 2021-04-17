@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Auditoria;
 use App\Empresa;
 use App\Personal;
+use App\Proceso;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +51,7 @@ class SubProcesoController extends Controller
 
             ]
         );
-        DB::transaction(function () use ($request){
+        DB::beginTransaction();
             try {
                 $proceso = new Proceso();
                 $proceso->empresa_id =$request->empresa;
@@ -67,12 +69,12 @@ class SubProcesoController extends Controller
                 $auditoria->nombre =Auth::user()->name;
                 $auditoria->save();
                 $auditoria->despues = $proceso->toJson();
+                DB::commit();
             }catch (\Exception $exception ){
 
                 DB::rollBack();
                 return redirect()->back()->with("error","fallo al crear sub proceso");
             }
-        });
         return redirect()->route("proceso.show",[$request->empresa,$request->proceso])->with("success","sub proceso creado correctamente");
 
     }
@@ -94,9 +96,13 @@ class SubProcesoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $empresa = Empresa::findOrFail($request->empresa);
+        $personals =$empresa->personals;
+        $data = Proceso::findOrFail($request->subproceso);
+
+        return view("subproceso.edit",compact("personals","data"));
     }
 
     /**
@@ -108,7 +114,39 @@ class SubProcesoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $request->validate([
+                'personal_id'=>'required|exists:personals,id',
+                'empresa_id'=>'required|exists:empresas,id',
+                'proceso_id'=>'required|exists:procesos,id',
+                'nombre'=>'required',
+
+            ]
+        );
+        DB::beginTransaction();
+            try {
+                $proceso = Proceso::findOrFail($request->subproceso);
+                $proceso->personal_id =$request->personal_id;
+                $proceso->nombre =$request->nombre;
+                $proceso->save();
+
+                $auditoria = new Auditoria();
+                $auditoria->tabla ="sub_proceso";
+                $auditoria->accion ="crear";
+                $auditoria->terminal =$request->ip();
+                $auditoria->empresa_id =$request->empresa;
+                $auditoria->user_id =Auth::id();
+                $auditoria->nombre =Auth::user()->name;
+                $auditoria->save();
+                $auditoria->despues = $proceso->toJson();
+                DB::commit();
+            }catch (\Exception $exception ){
+
+                DB::rollBack();
+                return redirect()->back()->with("error","fallo al editar sub proceso");
+            }
+
+        return redirect()->route("proceso.show",[$request->empresa,$request->proceso])->with("success","sub proceso editar correctamente");
     }
 
     /**
@@ -117,8 +155,28 @@ class SubProcesoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $proceso = Proceso::findOrFail($request->subproceso);
+
+            $auditoria = new Auditoria();
+            $auditoria->tabla ="sub_proceso";
+            $auditoria->accion ="borrar";
+            $auditoria->terminal =$request->ip();
+            $auditoria->empresa_id =$request->empresa;
+            $auditoria->user_id =Auth::id();
+            $auditoria->nombre =Auth::user()->name;
+            $auditoria->antes = $proceso->toJson();
+            $proceso->delete();
+            $auditoria->save();
+            DB::commit();
+            return redirect()->route("proceso.show",[$request->empresa,$request->proceso])->with("success","sub proceso borrado correctamente");
+        }catch (\Throwable $exception ){
+
+            DB::rollBack();
+            return redirect()->route("proceso.show",[$request->empresa,$request->proceso])->with("error","fallo al borrar sub proceso");
+        }
     }
 }

@@ -139,12 +139,12 @@ class ProcesoController extends Controller
             $auditoria->despues = $proceso->toJson();
             $auditoria->save();
             DB::commit();
-            return redirect()->route("proceso.index",$request->empresa)->with("success","proceso creado correctamente");
+            return redirect()->route("proceso.index",$request->empresa)->with("success","proceso actualizado correctamente");
         }catch (\Throwable $exception ){
 
             DB::rollBack();
             report($exception);
-            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al crear proceso");
+            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al actualizar proceso");
         }
 
     }
@@ -172,12 +172,12 @@ class ProcesoController extends Controller
             $proceso->delete();
             $auditoria->save();
             DB::commit();
-            return redirect()->route("proceso.index",$request->empresa)->with("success","proceso creado correctamente");
+            return redirect()->route("proceso.index",$request->empresa)->with("success","proceso borrado correctamente");
         }catch (\Throwable $exception ){
 
             DB::rollBack();
             report($exception);
-            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al crear proceso");
+            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al borrar proceso");
         }
 
     }
