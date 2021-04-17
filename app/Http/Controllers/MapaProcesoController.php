@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Empresa;
 use Illuminate\Http\Request;
 
 class MapaProcesoController extends Controller
@@ -11,9 +12,11 @@ class MapaProcesoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $empresa = Empresa::findOrfail($request->empresa) ;
+        $data = $empresa->mapaProcesos;
+        return view("mapa_proceso.index",compact("data"));
     }
 
     /**
