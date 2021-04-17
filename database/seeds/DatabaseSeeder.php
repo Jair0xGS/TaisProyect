@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EmpresaSeeder::class);
         $this->call(TipoProcesoSeeder::class);
         $this->call(AreaSeeder::class);
+        $this->call(ProcesoSeeder::class);
         DB::table('users')->insert([
             'name' => "Administrador",
             'email' => "admin@admin.com",
@@ -28,14 +29,7 @@ class DatabaseSeeder extends Seeder
         $userSuperAdmin = User::findOrFail(1);// buscan sus usuario
         $userSuperAdmin->assignRole('super_admin'); // agregan su rol
 
-        DB::table('personals')->insert([
-            'nombres' => "jose",
-            'apellidos' => "jose",
-            'correo' => "jose@garcia.coom",
-            'telefono' => "234234",
-            'puesto_id' => 1,
 
-        ]);
 
     }
 }

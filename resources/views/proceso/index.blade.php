@@ -37,7 +37,7 @@
                             </thead>
                             <tbody>
                             @foreach($data as $elem)
-
+                                @if($elem->tipoProceso != null)
                                 <tr>
                                     <td>
                                         {{$elem->nombre}}
@@ -77,7 +77,7 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Seguro que desea borrar esta plan ?
+                                                            Seguro que desea borrar este proceso ?
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -94,7 +94,7 @@
 
                                     </td>
                                 </tr>
-
+                            @endif
                             @endforeach
                             </tbody>
                         </table>

@@ -20,6 +20,8 @@ class CreatePersonalsTable extends Migration
             $table->string("correo")->unique();
             $table->unsignedBigInteger('puesto_id');
             $table->foreign('puesto_id')->references('id')->on('puestos');
+            $table->unsignedBigInteger('empresa_id');
+            $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->string("telefono");
 
             $table->timestamps();
