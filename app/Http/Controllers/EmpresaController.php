@@ -16,6 +16,7 @@ class EmpresaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     const PAGINACION=8;
 
      public function index(Request $request)
@@ -90,7 +91,7 @@ class EmpresaController extends Controller
                     'Email' => $request->email,
                     'Direccion' => $request->direccion,
             ], JSON_UNESCAPED_UNICODE);
-
+            $auditoria->empresa_id = $empresa->id;
             $auditoria->save();
 
             $user = new User();
@@ -113,7 +114,7 @@ class EmpresaController extends Controller
                 'Rol' => 'admin',
                 'Empresa' => $user->empresa_id
             ], JSON_UNESCAPED_UNICODE);
-
+            $auditoriaU->empresa_id = $user->empresa_id;
             $auditoriaU->save();
 
             return redirect()->route('empresa.index')->with('datos', '¡Registro nuevo guardado!');
@@ -209,7 +210,7 @@ class EmpresaController extends Controller
                 'Email' => $request->email,
                 'Direccion' => $request->direccion,
             ], JSON_UNESCAPED_UNICODE);
-
+            $auditoria->empresa_id = $empresa->id;
             $auditoria->save();
 
             return redirect()->route('empresa.index')->with('datos', '¡Registro actualizado con éxito!');
@@ -242,6 +243,7 @@ class EmpresaController extends Controller
                 'Direccion' => $empresaAntes->direccion,
             ], JSON_UNESCAPED_UNICODE);
             $auditoria->save();
+            $auditoria->empresa_id = $empresaAntes->id;
 
             Empresa::find($id)->forceDelete();
             return redirect()->route('empresa.index')->with('datos', '¡Registro Eliminado!');

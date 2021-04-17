@@ -65,7 +65,7 @@ class AreaController extends Controller
             'Area' => $area->nombre,
             'Empresa' => Auth::user()->Empresa->nombre
         ], JSON_UNESCAPED_UNICODE);
-
+        $auditoria->empresa_id = Auth::user()->Empresa->id;
         $auditoria->save();
 
         return redirect()->route('area.index')->with('datos', '¡Área registrada con éxito!');
@@ -128,7 +128,7 @@ class AreaController extends Controller
             'Area' => $area->nombre,
             'Empresa' => Auth::user()->Empresa->nombre,
         ], JSON_UNESCAPED_UNICODE);
-
+        $auditoria->empresa_id = Auth::user()->Empresa->id;
         $auditoria->save();
 
         return redirect()->route('area.index')->with('datos', '¡Área editada con éxito!');
@@ -155,6 +155,7 @@ class AreaController extends Controller
                 'Área' => $areaAntes->nombre,
                 'Empresa' =>Auth::user()->Empresa->nombre,
             ], JSON_UNESCAPED_UNICODE);
+            $auditoria->empresa_id = Auth::user()->Empresa->id;
             $auditoria->save();
 
             Area::find($id)->forceDelete();
