@@ -97,6 +97,7 @@ class EmpresaController extends Controller
             $user->name = $request->ruc."_user";
             $user->email= "admin_".$request->ruc."@bpm.com";
             $user->password= \Illuminate\Support\Facades\Hash::make("password");
+            $user->empresa_id= $empresa->id;
             $user->assignRole('admin');
             $user->save();
 
@@ -109,7 +110,8 @@ class EmpresaController extends Controller
             $auditoriaU->despues = json_encode([
                 'Nombre' => $user->name,
                 'Email' => $user->email,
-                'Rol' => 'admin'
+                'Rol' => 'admin',
+                'Empresa' => $user->empresa_id
             ], JSON_UNESCAPED_UNICODE);
 
             $auditoriaU->save();

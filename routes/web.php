@@ -34,9 +34,9 @@ Route::get('cancelarEmpresa', function(){
 //#####################
 
 //#####################
-//area routes
+//area y puesto routes
 Route::resource('/area', AreaController::class);
-
+Route::resource('/puesto', PuestoController::class);
 //#####################
 
 

@@ -40,6 +40,11 @@
             color: white;
             font-family: "Corbel Light";
         }
+        .btn-main:hover{
+            background: #110344;
+            color: white;
+            font-family: "Corbel Light";
+        }
 
         .text-main{
             color: #4717F6;
