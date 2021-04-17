@@ -62,7 +62,7 @@ class PuestoController extends Controller
             'Puesto' => $puesto->nombre,
             'Empresa' => Auth::user()->Empresa->nombre
         ], JSON_UNESCAPED_UNICODE);
-
+        $auditoria->empresa_id = Auth::user()->Empresa->id;
         $auditoria->save();
 
         return redirect()->route('area.index')->with('datos', '¡Puesto registrado con éxito!');
@@ -125,7 +125,7 @@ class PuestoController extends Controller
             'Puesto' => $puesto->nombre,
             'Empresa' => Auth::user()->Empresa->nombre,
         ], JSON_UNESCAPED_UNICODE);
-
+        $auditoria->empresa_id = Auth::user()->Empresa->id;
         $auditoria->save();
 
         return redirect()->route('area.index')->with('datos', '¡Puesto editado con éxito!');
@@ -152,6 +152,7 @@ class PuestoController extends Controller
                 'Puesto' => $puestoAntes->nombre,
                 'Empresa' =>Auth::user()->Empresa->nombre,
             ], JSON_UNESCAPED_UNICODE);
+            $auditoria->empresa_id = Auth::user()->Empresa->id;
             $auditoria->save();
 
             Puesto::find($id)->forceDelete();
