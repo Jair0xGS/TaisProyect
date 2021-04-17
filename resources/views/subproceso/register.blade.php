@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                     {{Form::label('personal_id','Personal Encargado')}}
-                    {{Form::select('personal_id',$personals->pluck('nombres','id'),null,['class'=> eClass( $errors->getBag('default')->first('personal_id')),'placeholder'=>'Personal'])}}
+                    {{Form::select('personal_id',$personals->pluck('full_name','id'),null,['class'=> eClass( $errors->getBag('default')->first('personal_id')),'placeholder'=>'Personal'])}}
                     <div class="invalid-feedback">
                         @error('personal_id') {{$message}} @enderror
                     </div>

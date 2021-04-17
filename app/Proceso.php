@@ -15,4 +15,7 @@ class Proceso extends Model
     function procesos(){
         return $this->hasMany('App\Proceso',"proceso_id","id");
     }
+    function mapaEstrategico(){
+        return $this->hasMany('App\MapaEstrategico',"proceso_id","id");
+    }
 }

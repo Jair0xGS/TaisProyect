@@ -18,7 +18,7 @@ class CreatePersonalsTable extends Migration
             $table->string("nombres");
             $table->string("apellidos");
             $table->string("correo")->unique();
-            $table->unsignedBigInteger('puesto_id');
+            $table->unsignedBigInteger('puesto_id')->nullable();
             $table->foreign('puesto_id')->references('id')->on('puestos');
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id')->references('id')->on('empresas');

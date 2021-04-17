@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $userSuperAdmin = User::findOrFail(1);// buscan sus usuario
         $userSuperAdmin->assignRole('super_admin'); // agregan su rol
 
+        $this->call(PerspectivaSeeder::class);
+        $this->call(RelacionSeeder::class);
 
 
     }

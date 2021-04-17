@@ -53,6 +53,7 @@ class ProcesoSeeder extends Seeder
                     'nombre' => $procesos[$i][0],
                     'empresa_id'=>$empresa->id,
                     'tipo_proceso_id'=>$tipos->random()->id,
+                    'personal_id'=> $empresa->personals->random()->id,
                 ]);
                 for($j = 0; $j < rand(1,count($procesos[$i][1])); ++$j) {
                     DB::table('procesos')->insert([

@@ -30,10 +30,12 @@ class ProcesoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $tipo_procesos = TipoProceso::all();
-        return view("proceso.register",compact("tipo_procesos"));
+        $empresa = Empresa::findOrFail($request->empresa);
+        $personals =$empresa->personals;
+        return view("proceso.register",compact("tipo_procesos","personals"));
     }
 
     /**
@@ -47,6 +49,7 @@ class ProcesoController extends Controller
 
         $request->validate([
             'empresa_id'=>'required|exists:empresas,id',
+            'personal_id'=>'required|exists:personals,id',
             'tipo_proceso_id'=>'required|exists:tipo_procesos,id',
             'nombre'=>'required',
 
@@ -58,6 +61,7 @@ class ProcesoController extends Controller
                 $proceso->empresa_id =$request->empresa_id;
                 $proceso->tipo_proceso_id =$request->tipo_proceso_id;
                 $proceso->nombre =$request->nombre;
+                $proceso->personal_id =$request->personal_id;
                 $proceso->save();
 
                 $auditoria = new Auditoria();
@@ -101,7 +105,9 @@ class ProcesoController extends Controller
     {
         $data = Proceso::findOrFail(Request()->proceso);
         $tipo_procesos = TipoProceso::all();
-        return view("proceso.edit",compact("tipo_procesos",'data'));
+        $empresa = Empresa::findOrFail($request->empresa);
+        $personals =$empresa->personals;
+        return view("proceso.edit",compact("tipo_procesos",'data',"personals"));
     }
 
     /**
@@ -116,6 +122,7 @@ class ProcesoController extends Controller
 
         $request->validate([
                 'empresa_id'=>'required|exists:empresas,id',
+                'personal_id'=>'required|exists:personals,id',
                 'tipo_proceso_id'=>'required|exists:tipo_procesos,id',
                 'nombre'=>'required',
 
@@ -134,6 +141,7 @@ class ProcesoController extends Controller
             $auditoria->nombre =Auth::user()->name;
             $auditoria->antes = $proceso->toJson();
             $proceso->tipo_proceso_id =$request->tipo_proceso_id;
+            $proceso->personal_id =$request->personal_id;
             $proceso->nombre =$request->nombre;
             $proceso->save();
             $auditoria->despues = $proceso->toJson();
@@ -167,7 +175,7 @@ class ProcesoController extends Controller
             $auditoria->terminal =$request->ip();
             $auditoria->empresa_id =$request->empresa;
             $auditoria->user_id =Auth::id();
-            $auditoria->nombre =Auth::user()->name;
+            $auditoria->nombre   =Auth::user()->name;
             $auditoria->antes = $proceso->toJson();
             $proceso->delete();
             $auditoria->save();
