@@ -43,6 +43,16 @@ Route::resource('/puesto', PuestoController::class);
 //#####################
 
 
+//#####################
+//auditoria routes
+Route::resource('/auditoria', AuditoriaController::class);
+//#####################
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//#####################
+//user routes
+Route::resource('/user', UserController::class);
+//#####################

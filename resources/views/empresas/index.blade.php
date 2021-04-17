@@ -8,9 +8,9 @@
         <div class="color-titulo m-5" style="font-size: 30px">
             <i class="fas fa-briefcase color-icono"></i>
             <span class="font-weight-bold ml-3" >EMPRESAS</span>
-        </div><br><br><br>
+        </div><br>
     </div>
-    <div class="container">
+    <div style="margin-left: 150px;margin-right: 150px">
 
         <div class="row">
             <div class="col-md-6 col-sm-12">

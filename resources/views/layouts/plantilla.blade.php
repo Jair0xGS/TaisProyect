@@ -15,6 +15,11 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/adminLte/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -148,7 +153,7 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2 color-degradado">
 
-
+                            @role('super_admin')
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
@@ -176,8 +181,8 @@
                                 </li>
                                 </li>
                             </ul>
-
-
+                            @endrole
+                            @role('admin')
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
@@ -201,7 +206,39 @@
                                 </li>
 
                             </ul>
+                            @endrole
+                            @role('admin')
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                                    with font-awesome or any other icon font library -->
+                                <li class="nav-item has-treeview">
+                                    <a href="" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>
+                                            PERSONAL
+                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{URL::to('/user')}}" class="nav-link offset-1">
+                                                <i class="fas fa-eye nav-icon"></i>
+                                                <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('user.create')}}" class="nav-link offset-1">
+                                                <i class="far fa-plus-square nav-icon"></i>
+                                                <p>Registrar</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                </li>
 
+                            </ul>
+                            @endrole
+                            @role('super_admin')
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
@@ -217,13 +254,7 @@
                                         <li class="nav-item">
                                             <a href="" class="nav-link offset-1">
                                                 <i class="fas fa-eye nav-icon"></i>
-                                                <p>MOSTRAR</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
-                                                <i class="far fa-plus-square nav-icon"></i>
-                                                <p>REGISTRAR</p>
+                                                <p>Mostrar</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -231,8 +262,8 @@
                                 </li>
 
                             </ul>
-
-
+                            @endrole
+                            @role('super_admin')
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
@@ -244,8 +275,42 @@
                                             <!-- <i class="right fas fa-angle-left"></i>-->
                                         </p>
                                     </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{URL::to('/auditoria')}}" class="nav-link offset-1">
+                                                <i class="fas fa-eye nav-icon"></i>
+                                                <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
+                            @endrole
+                            @role('admin')
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                                    with font-awesome or any other icon font library -->
+                                <li class="nav-item has-treeview">
+                                    <a href="" class="nav-link">
+                                        <i class="nav-icon fas fa-file-alt"></i>
+                                        <p>
+                                            AUDITORIAS
+                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{route('auditoria.show',Auth::user()->Empresa->id)}}" class="nav-link offset-1">
+                                                <i class="fas fa-eye nav-icon"></i>
+                                                <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            @endrole
+
+
 
 
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

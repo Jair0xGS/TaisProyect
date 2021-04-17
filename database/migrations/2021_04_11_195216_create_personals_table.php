@@ -25,6 +25,7 @@ class CreatePersonalsTable extends Migration
             $table->string("telefono");
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
