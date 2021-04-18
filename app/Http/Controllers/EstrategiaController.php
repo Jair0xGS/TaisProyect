@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Auditoria;
 use App\Estrategia;
+use App\EstrategiaRelacion;
 use App\MapaEstrategico;
 use App\Perspectiva;
 use App\Relacion;
@@ -65,11 +66,16 @@ class EstrategiaController extends Controller
                 $estrategia->mapa_estrategico_id = $request->mapa_estrategico;
                 $estrategia->relacion_id = $request->relacion_id;
                 $estrategia->nombre = $request->nombre;
-                if ($request->perspectiva_id != 1) {
-
-                    $estrategia->estrategia_id = $request->estrategia_id;
-                }
                 $estrategia->save();
+                foreach ($request->estrategia_id as $est) {
+                    if ($est != null){
+                    $reff = new EstrategiaRelacion();
+                    $reff->estrategia_id = $estrategia->id;
+                    $reff->estrategia_to_id = $est;
+                    $reff->save();
+
+                    }
+                }
 
                 $auditoria = new Auditoria();
                 $auditoria->tabla = "estrategia";
@@ -126,6 +132,7 @@ class EstrategiaController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $request->validate([
                 'perspectiva_id'=>'required|exists:perspectivas,id',
                 'relacion_id'=>'required|exists:relacions,id',
@@ -144,12 +151,19 @@ class EstrategiaController extends Controller
             $estrategia->perspectiva_id = $request->perspectiva_id;
             $estrategia->relacion_id = $request->relacion_id;
             $estrategia->nombre = $request->nombre;
-            if ($request->perspectiva_id != 1) {
-
-                $estrategia->estrategia_id = $request->estrategia_id;
-            }
             $estrategia->save();
+            foreach ($estrategia->estrategias as $dd){
+                $dd->delete();
+            }
+            foreach ($request->estrategia_id as $est) {
+                if ($est !=null){
 
+                $reff = new EstrategiaRelacion();
+                $reff->estrategia_id = $estrategia->id;
+                $reff->estrategia_to_id = $est;
+                $reff->save();
+                }
+            }
             $auditoria = new Auditoria();
             $auditoria->tabla = "estrategia";
             $auditoria->accion = "actualizar";
@@ -163,9 +177,9 @@ class EstrategiaController extends Controller
         }catch (\Exception $exception ){
 
             DB::rollBack();
-            return redirect()->back()->with("error","fallo al crear estrategia");
+            return redirect()->back()->with("error","fallo al editar estrategia");
         }
-        return redirect()->route("mapa_estrategico.show",[$request->empresa,$request->estrategia,$request->mapa_estrategico])->with("success","estrategia creado correctamente");
+        return redirect()->route("mapa_estrategico.show",[$request->empresa,$request->proceso,$request->mapa_estrategico])->with("success","estrategia editada correctamente");
 
     }
 
@@ -180,7 +194,9 @@ class EstrategiaController extends Controller
         DB::beginTransaction();
         try {
             $mapa = Estrategia::findOrFail($request->estrategium);
-
+            foreach ($mapa->estrategias as $dd){
+                $dd->delete();
+            }
             $auditoria = new Auditoria();
             $auditoria->tabla ="estrategia";
             $auditoria->accion ="borrar";

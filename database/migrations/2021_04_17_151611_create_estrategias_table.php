@@ -22,8 +22,6 @@ class CreateEstrategiasTable extends Migration
             $table->foreign('perspectiva_id')->references('id')->on('perspectivas');
             $table->unsignedBigInteger('relacion_id');
             $table->foreign('relacion_id')->references('id')->on('relacions');
-            $table->unsignedBigInteger('estrategia_id')->nullable();
-            $table->foreign('estrategia_id')->references('id')->on('estrategias');
 
             $table->timestamps();
         });

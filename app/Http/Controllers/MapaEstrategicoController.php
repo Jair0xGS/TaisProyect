@@ -82,7 +82,8 @@ class MapaEstrategicoController extends Controller
      */
     public function show(Request $request)
     {
-        $data = MapaEstrategico::findOrFail($request->mapa_estrategico);
+        $data = MapaEstrategico::with(['estrategias.estrategias','estrategias.relacion'])->findOrFail($request->mapa_estrategico);
+
         return view("mapa_estrategico.show",compact("data"));
     }
 
