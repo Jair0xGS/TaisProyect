@@ -12,11 +12,11 @@
         <div class="row ">
             <div class="container">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-9">
 
                     </div>
-                    <div class="col-2 mb-3">
-                        <a href="{{route('subproceso.create',[Request()->empresa,Request()->proceso])}}" class="btn btn-primary" role="button" aria-pressed="true">
+                    <div class="col-3 mb-3">
+                        <a href="{{route('subproceso.create',[Request()->empresa,Request()->proceso])}}" class="btn btn-block  btn-primary" role="button" aria-pressed="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                             </svg>
@@ -102,11 +102,11 @@
         <div class="row ">
             <div class="container">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-9">
 
                     </div>
-                    <div class="col-2 mb-3">
-                        <a href="{{route('mapa_estrategico.create',[Request()->empresa,Request()->proceso])}}" class="btn btn-primary" role="button" aria-pressed="true">
+                    <div class="col-3 mb-3">
+                        <a href="{{route('mapa_estrategico.create',[Request()->empresa,Request()->proceso])}}" class="btn btn-block btn-primary" role="button" aria-pressed="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                             </svg>
@@ -156,11 +156,11 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Seguro que desea borrar este sub proceso ?
+                                                            Seguro que desea borrar este mapa estrategico ?
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                            {!! Form::open(['action' => ['SubProcesoController@destroy',Request()->empresa,Request()->proceso,$elem->id],'method'=>'POST']) !!}
+                                                            {!! Form::open(['action' => ['MapaEstrategicoController@destroy',Request()->empresa,Request()->proceso,$elem->id],'method'=>'POST']) !!}
                                                             {{Form::hidden('_method','DELETE')}}
                                                             {{Form::submit('Borrar',['class'=>'btn btn-dark'])}}
                                                             {!! Form::close() !!}

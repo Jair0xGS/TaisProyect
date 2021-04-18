@@ -15,7 +15,7 @@
         <div class="row justify-content-center ">
             <div class="color-titulo m-5" style="font-size: 30px">
                 <i class="fas fa-briefcase color-icono"></i>
-                <span class="font-weight-bold ml-3" >EDITAR PROCESO</span>
+                <span class="font-weight-bold ml-3" >EDITAR MAPA ESTRATEGICO</span>
             </div>
         </div>
             <div class="row">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-12">
                     <div class="form-group pagination mt-5">
-                        {{Form::submit('Guardar Proceso',['class'=>'btn btn-lg btn-primary'])}}
+                        {{Form::submit('Guardar Mapa Estrategico',['class'=>'btn btn-lg btn-primary'])}}
                     </div>
                     {!! Form::close() !!}
                 </div>

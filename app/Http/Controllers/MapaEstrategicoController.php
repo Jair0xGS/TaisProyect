@@ -149,7 +149,7 @@ class MapaEstrategicoController extends Controller
     {
         DB::beginTransaction();
         try {
-            $mapa = MapaEstrategico::findOrFail($request->proceso);
+            $mapa = MapaEstrategico::findOrFail($request->mapa_estrategico);
 
             $auditoria = new Auditoria();
             $auditoria->tabla ="mapa_estrategico";
@@ -162,12 +162,12 @@ class MapaEstrategicoController extends Controller
             $mapa->delete();
             $auditoria->save();
             DB::commit();
-            return redirect()->route("proceso.show",$request->empresa,$request->proceso)->with("success","mapa estrategico borrado correctamente");
+            return redirect()->route("proceso.show",[$request->empresa,$request->proceso])->with("success","mapa estrategico borrado correctamente");
         }catch (\Throwable $exception ){
 
             DB::rollBack();
             report($exception);
-            return redirect()->route("proceso.index",$request->empresa)->with("error","fallo al borrar proceso");
+            return redirect()->route("proceso.show",[$request->empresa,$request->proceso])->with("error","fallo al borrar proceso");
         }
     }
 }

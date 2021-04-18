@@ -18,9 +18,6 @@ class RelacionSeeder extends Seeder
             ],[
                 "Estrategias fuera del alcance del proceso",
                 "green",
-            ],[
-                "Estrategias Generales del negocio",
-                "green",
             ],
 
         ];

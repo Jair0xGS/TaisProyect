@@ -43,6 +43,13 @@
                             @error('tipo_proceso_id') {{$message}} @enderror
                         </div>
                     </div>
+                    <div class="form-group">
+                        {{Form::label('personal_id','Personal Encargado')}}
+                        {{Form::select('personal_id',$personals->pluck('full_name','id'),$data->personal_id,['class'=> eClass( $errors->getBag('default')->first('personal_id')),'placeholder'=>'Personal'])}}
+                        <div class="invalid-feedback">
+                            @error('personal_id') {{$message}} @enderror
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12">
                     <div class="form-group pagination mt-5">

@@ -44,17 +44,20 @@
                                         {{$elem->nombre}}
                                     </td>
                                     <td>
-                                        {{$elem->personal->nombres}}
+                                        {{$elem->perspectiva->nombre}}
                                     </td>
                                     <td>
-                                        {{$elem->personal->puesto->nombre}}
+                                        {{$elem->relacion->nombre}}
                                     </td>
                                     <td>
                                         <div class="color-titulo row" style="font-size: 25px">
-                                         <!--   <a href="{{route('subproceso.show',[Request()->empresa,$data->id,$elem->id])}}" class="col-4 p-0" aria-pressed="true"><i class="fas fa-eye text-success"></i>
-                                            </a>
-            -->
-                                            <a href="{{route('subproceso.edit',[Request()->empresa,Request()->proceso,$elem->id])}}" class="col-4 p-0" aria-pressed="true"><i class="fas fa-pen-square btn-editar"></i>
+
+                                            <a href="{{route('estrategia.edit',[
+                                                            Request()->empresa,
+                                                            Request()->proceso,
+                                                            Request()->mapa_estrategico,
+                                                            $elem->id
+                                                            ])}}" class="col-4 p-0" aria-pressed="true"><i class="fas fa-pen-square btn-editar"></i>
                                             </a>
                                             <a  class="col-4 p-0" aria-pressed="true"><i class="fas fa-trash-alt btn-eliminar" aria-pressed="true" data-toggle="modal" data-target="#exampleModal{{$elem->id}}"></i>
                                             </a>
@@ -69,11 +72,11 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Seguro que desea borrar este sub proceso ?
+                                                            Seguro que desea borrar esta estrategia ?
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                            {!! Form::open(['action' => ['SubProcesoController@destroy',Request()->empresa,Request()->proceso,$elem->id],'method'=>'POST']) !!}
+                                                            {!! Form::open(['action' => ['EstrategiaController@destroy',Request()->empresa,Request()->proceso,Request()->mapa_estrategico,$elem->id],'method'=>'POST']) !!}
                                                             {{Form::hidden('_method','DELETE')}}
                                                             {{Form::submit('Borrar',['class'=>'btn btn-dark'])}}
                                                             {!! Form::close() !!}

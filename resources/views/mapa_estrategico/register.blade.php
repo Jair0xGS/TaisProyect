@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-12">
                     <div class="form-group pagination mt-5">
-                        {{Form::submit('Guardar Proceso',['class'=>'btn btn-lg btn-primary'])}}
+                        {{Form::submit('Guardar Mapa Estrategico',['class'=>'btn btn-lg btn-primary'])}}
                     </div>
                     {!! Form::close() !!}
                 </div>

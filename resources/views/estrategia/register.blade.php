@@ -30,7 +30,15 @@
                         'method'=>'POST']) !!}
                     <div class="form-group">
                         {{Form::label('nombre','Nombre')}}
-                        {{Form::text('nombre','',['class'=> eClass( $errors->getBag('default')->first('nombre')),'placeholder'=>'Nombre'])}}
+                        {{Form::text(
+                            'nombre',
+                            '',
+                                [
+                                    'class'=> eClass( $errors->getBag('default')->first('nombre')),
+                                    'placeholder'=>'Nombre'
+                                    ]
+                            )
+                        }}
                         <div class="invalid-feedback">
                             @error('nombre') {{$message}} @enderror
                         </div>
@@ -47,11 +55,21 @@
 
 
                 </div>
+
                 <div class="col-6 mt-5">
 
                     <div class="form-group">
                         {{Form::label('perspectiva_id','Perspectiva')}}
-                        {{Form::select('perspectiva_id',$perspectivas->pluck('nombre','id'),null,['class'=> eClass( $errors->getBag('default')->first('perspectiva_id')),'placeholder'=>'Perspectiva'])}}
+                        {{Form::select('perspectiva_id',
+                            $perspectivas->pluck('nombre','id'),
+                            null,
+                                [
+                                    'class'=> eClass( $errors->getBag('default')->first('perspectiva_id')),
+                                    'placeholder'=>'Perspectiva',
+                                    'onchange'=>'trigger(this)',
+                                ]
+                            )
+                        }}
                         <div class="invalid-feedback">
                             @error('perspectiva_id') {{$message}} @enderror
                         </div>
@@ -59,22 +77,19 @@
                     <div class="form-group">
                         {{Form::label('relacion_id','Relacion')}}
                         {{Form::select('relacion_id',$relaciones->pluck('nombre','id'),null,['class'=> eClass( $errors->getBag('default')->first('relacion_id')),'placeholder'=>'Relacion'])}}
-                        <div class="inv alid-feedback">
+                        <div class="invalid-feedback">
                             @error('relacion_id') {{$message}} @enderror
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-group pagination mt-5">
-                        {{Form::submit('Guardar Proceso',['class'=>'btn btn-lg btn-primary'])}}
+                        {{Form::submit('Guardar Estrategia',['class'=>'btn btn-lg btn-primary'])}}
                     </div>
                     {!! Form::close() !!}
                 </div>
 
             </div>
-
-
-        </div>
 
 
     </div>
@@ -83,10 +98,60 @@
 
 @section('js')
 <script>
-    let allEstrategias = {{ $relaciones->pluck('nombre','perspectiva_id','id') }};
+    function trigger(selected) {
+        //console.log("{{ $estrategias->toJson()}}".replaceAll("&quot;",'"'))
+        console.log("---------------------------------------------------")
+        console.log(selected.value)
+        var allEstrategias = JSON.parse("{{ $estrategias->toJson()}}".replaceAll("&quot;",'"'));
 
-    console.log(allEstrategias);
+        //check if es una perspectiva financiera
+        var selEstrategia = document.getElementById("estrategia_id");
+        selEstrategia.disabled=false;
 
+        if (selected.value == 1){
+            selEstrategia.disabled=true;
+            return;
+        }
+
+        console.log("lenght options select "+selEstrategia.options.length)
+        selEstrategia.innerHTML=null;
+        selEstrategia.add(new Option( "Estrategia a Refereneciar" ));
+
+
+        for (var ix in allEstrategias) {
+            if (parseInt(allEstrategias[ix].perspectiva_id) < parseInt(selected.value)){
+                console.log(allEstrategias[ix]);
+                selEstrategia.add(new Option( allEstrategias[ix].nombre, allEstrategias[ix].id ));
+
+            }
+        }
+            return;
+
+    }
+    function initEstrategias(){
+        console.log("{{ $estrategias->toJson() }}".replaceAll("&quot;",'"'))
+        console.log("exec init");
+        let allEstrategias = JSON.parse("{{ $estrategias->toJson() }}".replaceAll("&quot;",'"'));
+        console.log(allEstrategias);
+        console.log(allEstrategias.length);
+        var sel = document.getElementById("estrategia_id");
+        if( allEstrategias.length == 0){
+            sel.disabled=true;
+            return;
+        }
+        for (var ix in allEstrategias) {
+            console.log(allEstrategias);
+            var option = document.createElement("option");
+            option.text = allEstrategias[ix].nombre;
+            option.value = allEstrategias[ix].id;
+            sel.add(option);
+
+        }
+        return;
+    }
+    window.onload = function() {
+      initEstrategias()
+    };
 
 </script>
 @endsection
