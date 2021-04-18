@@ -67,6 +67,12 @@
         .btn-eliminar:hover{
             color: #050f6a;
         }
+        .btn-otro{
+            color: #03242a;
+        }
+        .btn-otro:hover{
+            color: #06781f;
+        }
     </style>
 
 </head>

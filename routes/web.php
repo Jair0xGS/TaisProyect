@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +54,16 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //#####################
-//user routes
+//user/personal routes
 Route::resource('/user', UserController::class);
+Route::get('cancelarPersonal', function(){
+    return redirect()->route('user.index')->with('datos','¡Accion cancelada!');
+})->name('cancelarPersonal');
+Route::get('rotacion/{id}', function($id) {
+    $personal = \App\Personal::where('empresa_id','=',\Illuminate\Support\Facades\Auth::user()->Empresa->id)
+        ->where('id','<>',$id)->get();
+    return view('usuarios.rotacion', compact('personal', 'id'));
+})->name('rotacion');
+Route::get('intercambio/{id}/{id_select}', 'UserController@intercambio')->name('intercambio');
+
 //#####################

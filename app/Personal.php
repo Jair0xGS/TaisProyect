@@ -20,6 +20,6 @@ class Personal extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class,'personal_id','id');
+        return $this->hasOne(User::class,'id','personal_id');
     }
 }

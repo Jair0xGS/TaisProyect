@@ -66,7 +66,6 @@ class EmpresaController extends Controller
         );
 
        // DB::transaction(function ($request) {
-
             $empresa= new Empresa();
             $empresa->ruc=$request->ruc;
             $empresa->nombre=$request->nombre;
@@ -95,7 +94,7 @@ class EmpresaController extends Controller
             $auditoria->save();
 
             $user = new User();
-            $user->name = $request->ruc."_user";
+            $user->name = $request->ruc."_admin";
             $user->email= "admin_".$request->ruc."@bpm.com";
             $user->password= \Illuminate\Support\Facades\Hash::make("password");
             $user->empresa_id= $empresa->id;
@@ -242,8 +241,8 @@ class EmpresaController extends Controller
                 'Email' => $empresaAntes->email,
                 'Direccion' => $empresaAntes->direccion,
             ], JSON_UNESCAPED_UNICODE);
-            $auditoria->save();
             $auditoria->empresa_id = $empresaAntes->id;
+            $auditoria->save();
 
             Empresa::find($id)->forceDelete();
             return redirect()->route('empresa.index')->with('datos', '¡Registro Eliminado!');

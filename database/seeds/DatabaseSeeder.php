@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PerspectivaSeeder::class);
         $this->call(RelacionSeeder::class);
 
-
+        $this->call(FormulaSeeder::class);
+        $this->call(TablaSeeder::class);
+        $this->call(CampoSeeder::class);
     }
 }

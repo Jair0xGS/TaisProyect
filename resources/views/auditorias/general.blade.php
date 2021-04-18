@@ -24,7 +24,7 @@
                     <input id="dateInicio" name="dateInicio" width="276" value="{{$inicio}}" />
                     <label for="name" class="col-form-label ml-3">Fin: </label>
                     <input id="dateFin" name="dateFin" width="276" value="{{$fin}}" />
-                    <button class="btn my-2 my-sm-0 btn-main float-right" type="submit"><i class="fas fa-search"></i></button>
+                    <button class="btn my-2 my-sm-0 btn-dark float-right" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>
