@@ -67,3 +67,9 @@ Route::get('rotacion/{id}', function($id) {
 Route::get('intercambio/{id}/{id_select}', 'UserController@intercambio')->name('intercambio');
 
 //#####################
+
+
+//#####################
+//Indicador routes
+Route::resource('/indicador', IndicadorController::class);
+//#####################

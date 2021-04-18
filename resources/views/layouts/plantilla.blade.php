@@ -168,6 +168,7 @@
                                         <i class="nav-icon fas fa-braille"></i>
                                         <p>
                                             EMPRESAS
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
@@ -197,7 +198,7 @@
                                         <i class="nav-icon fas fa-cogs"></i>
                                         <p>
                                             ÁREAS
-                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
@@ -218,11 +219,61 @@
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
                                 <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-cogs"></i>
+                                        <p>
+                                            PROCESOS
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="" class="nav-link offset-1">
+                                                <i class="fas fa-eye nav-icon"></i>
+                                                <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                </li>
+
+                            </ul>
+                            @endrole
+                            @role('admin')
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                                    with font-awesome or any other icon font library -->
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-cogs"></i>
+                                        <p>
+                                            INDICADORES
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{URL::to('/indicador')}}" class="nav-link offset-1">
+                                                <i class="fas fa-eye nav-icon"></i>
+                                                <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                </li>
+
+                            </ul>
+                            @endrole
+                            @role('admin')
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                                    with font-awesome or any other icon font library -->
+                                <li class="nav-item has-treeview">
                                     <a href="" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>
                                             PERSONAL
-                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
@@ -253,7 +304,7 @@
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>
                                             USUARIOS
-                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
@@ -261,6 +312,37 @@
                                             <a href="" class="nav-link offset-1">
                                                 <i class="fas fa-eye nav-icon"></i>
                                                 <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                </li>
+
+                            </ul>
+                            @endrole
+                            @role('user')
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                                    with font-awesome or any other icon font library -->
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-bars"></i>
+                                        <p>
+                                            INCIDENCIAS
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="" class="nav-link offset-1">
+                                                <i class="fas fa-cog nav-icon"></i>
+                                                <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="" class="nav-link offset-1">
+                                                <i class="fas fa-cog nav-icon"></i>
+                                                <p>Registrar</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -278,7 +360,7 @@
                                         <i class="nav-icon fas fa-file-alt"></i>
                                         <p>
                                             AUDITORIAS
-                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
@@ -301,7 +383,7 @@
                                         <i class="nav-icon fas fa-file-alt"></i>
                                         <p>
                                             AUDITORIAS
-                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
@@ -317,44 +399,6 @@
                             @endrole
 
 
-
-
-                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                <!-- Add icons to the links using the .nav-icon class
-                                    with font-awesome or any other icon font library -->
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-bars"></i>
-                                        <p>
-                                            INFORMACION
-                                            <!-- <i class="right fas fa-angle-left"></i>-->
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
-                                                <i class="fas fa-cog nav-icon"></i>
-                                                <p>PROCESOS</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
-                                                <i class="fas fa-cog nav-icon"></i>
-                                                <p>ÁREAS</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
-                                                <i class="fas fa-cog nav-icon"></i>
-                                                <p>MATRIZ</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                </li>
-
-                            </ul>
-
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
@@ -363,20 +407,20 @@
                                         <i class="nav-icon fas fa-user"></i>
                                         <p>
                                             PERFIL
-                                            <!-- <i class="right fas fa-angle-left"></i>-->
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
                                             <a href="" class="nav-link offset-1">
                                                 <i class="fas fa-pen-square nav-icon"></i>
-                                                <p>EDITAR</p>
+                                                <p>Editar</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="" class="nav-link offset-1">
                                                 <i class="far fa-eye nav-icon"></i>
-                                                <p>VER</p>
+                                                <p>Ver</p>
                                             </a>
                                         </li>
                                     </ul>
