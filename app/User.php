@@ -43,5 +43,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Empresa::class,'id','empresa_id');
     }
+    public function personal(){
+        return $this->hasOne(Personal::class,'id','personal_id');
+    }
 
 }

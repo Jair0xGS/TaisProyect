@@ -71,7 +71,9 @@
                         <label class="form-control-label" for="input-current-password">Puesto (por cubrir)</label>
                         <select class="custom-select form-control-alternative{{ $errors->has('puesto_id') ? ' is-invalid' : '' }}"  name="puesto_id" id="puesto_id">
                             @foreach($puestos_por_cubrir as $itm)
-                                <option value="{{$itm->id}}">{{$itm->nombre}}</option>
+                                @if($itm->area->empresa_id ==Auth::user()->Empresa->id)
+                                    <option value="{{$itm->id}}">{{$itm->nombre}}</option>
+                                @endif
                             @endforeach
                         </select>
 
@@ -80,6 +82,10 @@
                                 <strong>{{ $errors->first('puesto_id') }}</strong>
                             </span>
                         @endif
+                    </div>
+                    <div class="btn-group mt-5" role="group" aria-label="Basic checkbox toggle button group">
+                        <input type="checkbox" class="btn-check" id="capacitado" name="capacitado" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck1">Personal capacitado para medición de indicadores</label>
                     </div>
 
                 </div>

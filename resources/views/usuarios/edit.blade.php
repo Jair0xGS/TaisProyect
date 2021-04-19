@@ -70,94 +70,96 @@
                         <select class="custom-select form-control-alternative{{ $errors->has('puesto_id') ? ' is-invalid' : '' }}"  name="puesto_id" id="puesto_id">
                             <option value="{{$personal->Puesto->id}}">{{$personal->Puesto->nombre}}</option>
                             @foreach($puestos_por_cubrir as $itm)
-                                <option value="{{$itm->id}}">{{$itm->nombre}}</option>
-                            @endforeach
-                        </select>
+                                    @if($itm->area->empresa_id ==Auth::user()->Empresa->id)
+                                        <option value="{{$itm->id}}">{{$itm->nombre}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
 
-                        @if ($errors->has('puesto_id'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('puesto_id') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-
-                </div>
-            </div><br>
-
-
-            <div class="row">
-                <div class="col-md-9 col-sm-12">
-                    <a href="{{URL::to('/user')}}">
-                        <i class="fas fa-link color-icono icono"></i>
-                        <span class="ml-2" >MOSTRAR PERSONAL</span>
-                    </a>
-                </div>
-                <div class="col-md-3 col-sm-12 mb-2">
-                    <button type="button" class="btn btn-block text-white font-weight-bold btn-main" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fas fa-save icono"></i>
-                        GUARDAR CAMBIOS
-                    </button>
-                </div>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header color-degradado text-white">
-                                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle"> </i> ATENCIÓN</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                @if ($errors->has('puesto_id'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('puesto_id') }}</strong>
+                                    </span>
+                                @endif
                             </div>
-                            <div class="modal-body text-center m-3">
-                                ¿Desea confirmar los cambios?
-                            </div>
-                            <div class="modal-footer row p-0 m-3">
-                                <div class="col-5">
-                                    <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-dismiss="modal">NO</button>
-                                </div>
-                                <div class="col-1"></div>
-                                <div class="col-5">
-                                    <button type="submit" class="btn btn-outline-primary btn-sm btn-block">SÍ</button>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
-                </div>
-            </div>
-        </form><br><br><br><br>
-        <div class="mt-5 card p-5  text-center">
-            <button type="button" class="btn btn-block text-white btn-dark" data-toggle="modal" data-target="#modalRestablecer">
-                <i class="fas fa-play"></i>
-                RESTABLECER PASSWORD
-            </button>
-            <!-- Modal RESTABLECER -->
-            <div class="modal fade" id="modalRestablecer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header color-degradado text-white">
-                            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle"> </i> ATENCIÓN</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-9 col-sm-12">
+                            <a href="{{URL::to('/user')}}">
+                                <i class="fas fa-link color-icono icono"></i>
+                                <span class="ml-2" >MOSTRAR PERSONAL</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-sm-12 mb-2">
+                            <button type="button" class="btn btn-block text-white font-weight-bold btn-main" data-toggle="modal" data-target="#exampleModal">
+                                <i class="fas fa-save icono"></i>
+                                GUARDAR CAMBIOS
                             </button>
                         </div>
-                        <div class="modal-body text-center m-3">
-                            ¿Seguro que desea restablecer la contraseña del personal seleccionado?
-                        </div>
-                        <div class="modal-footer row p-0 m-3">
-                            <div class="col-5">
-                                <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-dismiss="modal">NO</button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header color-degradado text-white">
+                                        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle"> </i> ATENCIÓN</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center m-3">
+                                        ¿Desea confirmar los cambios?
+                                    </div>
+                                    <div class="modal-footer row p-0 m-3">
+                                        <div class="col-5">
+                                            <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-dismiss="modal">NO</button>
+                                        </div>
+                                        <div class="col-1"></div>
+                                        <div class="col-5">
+                                            <button type="submit" class="btn btn-outline-primary btn-sm btn-block">SÍ</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-1"></div>
-                            <div class="col-5">
-                                <a href="{{route('user.show',$personal->id)}}" class="btn btn-outline-primary btn-sm btn-block">SÍ</a>
+                        </div>
+                    </div>
+                </form><br><br><br><br>
+                <div class="mt-5 card p-5  text-center">
+                    <button type="button" class="btn btn-block text-white btn-dark" data-toggle="modal" data-target="#modalRestablecer">
+                        <i class="fas fa-play"></i>
+                        RESTABLECER PASSWORD
+                    </button>
+                    <!-- Modal RESTABLECER -->
+                    <div class="modal fade" id="modalRestablecer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header color-degradado text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle"> </i> ATENCIÓN</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center m-3">
+                                    ¿Seguro que desea restablecer la contraseña del personal seleccionado?
+                                </div>
+                                <div class="modal-footer row p-0 m-3">
+                                    <div class="col-5">
+                                        <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-dismiss="modal">NO</button>
+                                    </div>
+                                    <div class="col-1"></div>
+                                    <div class="col-5">
+                                        <a href="{{route('user.show',$personal->id)}}" class="btn btn-outline-primary btn-sm btn-block">SÍ</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-@endsection
-@endrole
+        @endsection
+        @endrole

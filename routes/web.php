@@ -72,4 +72,5 @@ Route::get('intercambio/{id}/{id_select}', 'UserController@intercambio')->name('
 //#####################
 //Indicador routes
 Route::resource('/indicador', IndicadorController::class);
+Route::get('ObtenerSubproceso/{id}', 'IndicadorController@ObtenerSubproceso');
 //#####################

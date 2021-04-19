@@ -19,8 +19,7 @@ class CreateIndicadorsTable extends Migration
             $table->text("objeto_medicion");
             $table->text("mecanismo");
             $table->string("tolerancia");
-            $table->string("frecuencia");
-            $table->string("objetivo");
+            $table->text("objetivo");
             $table->string("unidad");
             $table->text("iniciativas");
             $table->string("formula");

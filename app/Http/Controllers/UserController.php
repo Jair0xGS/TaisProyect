@@ -139,7 +139,10 @@ class UserController extends Controller
         $user->password= \Illuminate\Support\Facades\Hash::make("password");
         $user->empresa_id= Auth::user()->Empresa->id;
         $user->personal_id= $personal->id;
-        $user->assignRole('user');
+        if($request->capacitado==null)
+            $user->assignRole('user');
+        else
+            $user->assignRole('supervisor');
         $user->save();
 
         $auditoriaU = new Auditoria();

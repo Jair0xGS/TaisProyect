@@ -18,4 +18,7 @@ class Proceso extends Model
     function mapaEstrategico(){
         return $this->hasMany('App\MapaEstrategico',"proceso_id","id");
     }
+    function indicadores(){
+        return $this->hasMany('App\Indicador',"proceso_id","id");
+    }
 }

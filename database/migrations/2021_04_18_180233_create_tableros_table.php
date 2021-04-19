@@ -16,6 +16,7 @@ class CreateTablerosTable extends Migration
         Schema::create('tableros', function (Blueprint $table) {
             $table->id();
             $table->string("descripcion");
+            $table->string("frecuencia");
             $table->string("rojo");
             $table->string("amarillo");
             $table->string("verde");

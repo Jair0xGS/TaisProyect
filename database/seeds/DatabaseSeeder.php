@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $role= Role::create(['name' => 'super_admin']);// ejemplo de rol
         $role= Role::create(['name' => 'admin']);// ejemplo de rol
         $role= Role::create(['name' => 'user']);// ejemplo de rol
+        $role= Role::create(['name' => 'supervisor']);// ejemplo de rol
         $userSuperAdmin = User::findOrFail(1);// buscan sus usuario
         $userSuperAdmin->assignRole('super_admin'); // agregan su rol
 
