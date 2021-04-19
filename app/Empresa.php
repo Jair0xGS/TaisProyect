@@ -15,4 +15,7 @@ class Empresa extends Model
     function personals(){
         return $this->hasMany('App\Personal');
     }
+    function incidencias(){
+        return $this->hasMany('App\Incidencia');
+    }
 }
