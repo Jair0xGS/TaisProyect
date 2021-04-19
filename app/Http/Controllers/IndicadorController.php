@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Campos;
 use App\Formula;
 use App\Personal;
 use App\Proceso;
+use App\Tabla;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -33,7 +35,8 @@ class IndicadorController extends Controller
         $proceso = Proceso::where('empresa_id','=',Auth::user()->Empresa->id)->where('proceso_id','=',null)->get();
         $personal = User::role('supervisor')->where('empresa_id','=',Auth::user()->Empresa->id)->get();
         $formula = Formula::get();
-        return view('indicadores.register',compact('proceso','personal','formula'));
+        $tabla = Tabla::get();
+        return view('indicadores.register',compact('proceso','personal','formula','tabla'));
     }
 
     /**
@@ -45,28 +48,34 @@ class IndicadorController extends Controller
     public function ObtenerSubproceso($id){
         return Proceso::where('proceso_id','=',$id)->get();
     }
+    public function ObtenerCampos1($id){
+        return Campos::where('tabla_id','=',$id)->get();
+    }
+    public function ObtenerCampos2($id){
+        return Campos::where('tabla_id','=',$id)->get();
+    }
 
     public function store(Request $request)
     {
         $data=request()->validate([
             'descripcion'=>'required',
-            'ruc'=>'required|numeric',
-            'nombre'=>'required',
-            'telefono'=>'required|max:999999999|numeric',
-            'email'=>'required|email',
-            'direccion'=>'required'
+            'objeto_medicion'=>'required',
+            'tolerancia'=>'required',
+            'mecanismo'=>'required',
+            'objetivo'=>'required',
+            'unidad'=>'required',
+            'parametro1'=>'required',
+            'personal_id'=>'required',
         ],
             [
-                'descripcion.required'=>'Ingrese una descripción.',
-                'ruc.required'=>'Ingrese el RUC de la empresa.',
-                'ruc.numeric'=>'El RUC solo acepta valores numéricos.',
-                'nombre.required'=>'Ingrese el Nombre de la empresa.',
-                'telefono.required'=>'Ingrese un número de teléfono.',
-                'telefono.max'=>'No sobrepase los 9 caracteres para el teléfono.',
-                'telefono.numeric'=>'Todos los caracteres deben ser numéricos.',
-                'email.required'=>'Ingrese un email.',
-                'email.email'=>'Ingresar correo con estructura válida.',
-                'direccion.required'=>'Ingrese una dirección.'
+                'descripcion.required'=>'Ingrese la denominación para el indicador.',
+                'objeto medición.required'=>'Responda a la pregunta: ¿Qué se mide?.',
+                'tolerancia.required'=>'Indique la tolerancia que admite el indicador.',
+                'mecanismo.required'=>'Ingrese el Mecanismo de medición.',
+                'objetivo.required'=>'Ingrese el objetivo del indicador.',
+                'unidad.required'=>'Ingrese la unidad del indicador.',
+                'parametro1.required'=>'Ingresar el parámetro 1.',
+                'personal_id.required'=>'Ingresar personal.',
             ]
         );
 

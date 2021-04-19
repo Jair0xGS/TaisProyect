@@ -7,7 +7,7 @@
         <div class="color-titulo m-5" style="font-size: 30px">
             <i class="fas fa-layer-group"></i>
             <span class="font-weight-bold ml-3" > REGISTRAR INDICADOR</span>
-        </div><br><br><br>
+        </div>
 
     </div>
     <div class="m-5">
@@ -38,8 +38,8 @@
 
                         @if ($errors->has('proceso_id'))
                             <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('proceso_id') }}</strong>
-                                    </span>
+                                  <strong>{{ $errors->first('proceso_id') }}</strong>
+                            </span>
                         @endif
                     </div>
 
@@ -47,9 +47,6 @@
                         <label class="form-control-label" for="input-current-password">Subroceso <span class="text-main">(opcional)</span></label>
                         <select class="custom-select form-control-alternative{{ $errors->has('subproceso_id') ? ' is-invalid' : '' }}"  name="subproceso_id" id="subproceso_id" onchange="mostrarDepartamento()">
                             <option value="0" selected>- Seleccione un subproceso -</option>
-                            @foreach($proceso as $item)
-                                <option value="{{ $item->id }}">{{ $item->nombre }}</option>
-                            @endforeach
                         </select>
                     </div>
 
@@ -85,14 +82,19 @@
                             </span>
                         @endif
                     </div>
-
                     <div class="form-group{{ $errors->has('personal_id') ? ' has-danger' : '' }} col-lg-4 col-md-12">
                         <label class="form-control-label" for="input-current-password">Responsable</label>
                         <select class="custom-select form-control-alternative{{ $errors->has('personal_id') ? ' is-invalid' : '' }}"  name="personal_id" id="personal_id">
                             @foreach($personal as $itm)
-                                    <option value="{{ $itm->Personal->id }}">{{ $itm->Personal->nombres }} {{ $itm->Personal->apellidos }} - {{ $itm->Personal->Puesto->nombre }}</option>
+                                <option value="{{ $itm->Personal->id }}">{{ $itm->Personal->nombres }} {{ $itm->Personal->apellidos }} - {{ $itm->Personal->Puesto->nombre }}</option>
                             @endforeach
                         </select>
+
+                        @if ($errors->has('personal_id'))
+                            <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $errors->first('personal_id') }}</strong>
+                            </span>
+                        @endif
                     </div>
 
                     <div class="form-group{{ $errors->has('tolerancia') ? ' has-danger' : '' }} col-lg-2 col-md-12">
@@ -130,26 +132,79 @@
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('formula_id') }}</strong>
                                     </span>
-                        @endif
+                        @endif <br><br><br><br>
                     </div>
+
 
                     <div class="col-lg-4">
                         <img src="../../img/formulas.jpg" alt="panda" style="width: 100%; position: relative; float: right">
                     </div>
-                    <div class="form-group{{ $errors->has('parametro1') ? ' has-danger' : '' }} col-lg-4 col-md-12"><br><br><br>
-                        <label class="form-control-label" for="input-current-password">Parámetro 1</label>
-                        <input type="text" name="parametro1" id="parametro1" class="form-control form-control-alternative{{ $errors->has('parametro1') ? ' is-invalid' : '' }}" placeholder="Denominación del parámetro 1" value="{{old('parametro1')}}" >
+                    <div class="col-8">
+                    <div class="row">
+                        <div class="form-group{{ $errors->has('parametro1') ? ' has-danger' : '' }} col-6">
+                            <label class="form-control-label" for="input-current-password">Parámetro 1</label>
+                            <input type="text" name="parametro1" id="parametro1" class="form-control form-control-alternative{{ $errors->has('parametro1') ? ' is-invalid' : '' }}" placeholder="Denominación del parámetro 1" value="{{old('parametro1')}}" >
 
-                        @if ($errors->has('parametro1'))
-                            <span class="invalid-feedback" role="alert">
+                            @if ($errors->has('parametro1'))
+                                <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('parametro1') }}</strong>
                             </span>
-                        @endif
-                    </div>
-                    <div class="form-group col-lg-4 col-md-12"><br><br><br>
-                        <label class="form-control-label" for="input-current-password">Parámetro 2</label>
-                        <input type="text" name="parametro2" id="parametro2" class="form-control form-control-alternative" placeholder="Denominación del parámetro 2" value="{{old('parametro2')}}" >
+                            @endif
 
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="input-current-password">Tabla a considerar</label>
+                            <select class="custom-select form-control-alternative"  name="tabla1" id="tabla1" onchange="mostrarCampos1()">
+                                <option value="0" selected>- Seleccione una tabla -</option>
+                                @foreach($tabla as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
+                            <select class="custom-select form-control-alternative"  name="campo1" id="campo1">
+                                <option value="0" selected>- Seleccione un campo -</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
+                            <input type="text" name="condición1" id="condición1" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición1')}}" >
+
+                        </div>
+
+                    </div><br>
+                        <hr style="height: 1px">
+                    <div class="row" id="parametro">
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="input-current-password">Parámetro 2</label>
+                            <input type="text" name="parametro2" id="parametro2" class="form-control form-control-alternative" placeholder="Denominación del parámetro 2" value="{{old('parametro2')}}" >
+
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="input-current-password">Tabla a considerar</label>
+                            <select class="custom-select form-control-alternative"  name="tabla2" id="tabla2" onchange="mostrarCampos2()">
+                                <option value="0" selected>- Seleccione una tabla -</option>
+                                @foreach($tabla as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
+                            <select class="custom-select form-control-alternative"  name="campo2" id="campo2">
+                                <option value="0" selected>- Seleccione un campo -</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
+                            <input type="text" name="condición2" id="condición2" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición2')}}" >
+
+                        </div>
                     </div>
 
 
@@ -157,8 +212,8 @@
 
 
             </div><br><br><br><br>
-
-            <div class="row">
+            </div>
+            <div class="row m-3">
                 <div class="col-md-10 col-sm-12">
                     <a href="{{URL::to('/indicador')}}">
                         <i class="fas fa-link color-icono icono"></i>
@@ -182,6 +237,12 @@
         $('#formula_id').change(function(){
             mostrarParametros();
         });
+        $('#tabla1').change(function(){
+            mostrarCampos1();
+        });
+        $('#tabla2').change(function(){
+            mostrarCampos2();
+        });
     });
     function mostrarSubproceso(){
         idProceso=$("#proceso_id").val();
@@ -202,10 +263,35 @@
         });
     }
     function mostrarParametros(){
-        idProceso=$("#proceso_id").val();
-        $.get('/ObtenerSubproceso/'+idProceso, function(data){
+        idFormula=$("#formula_id").val();
+        $('#parametro').removeClass("d-none").addClass("parametro");
 
-            var x = document.getElementById("subproceso_id");
+        if(idFormula ==3)
+            $('#parametro').removeClass("parametro").addClass("d-none");
+    }
+    function mostrarCampos1(){
+        idTable=$("#tabla1").val();
+        $.get('/ObtenerCampos1/'+idTable, function(data){
+
+            var x = document.getElementById("campo1");
+            for (let i = x.options.length; i > 0; i--) {
+                x.remove(i);
+            }
+            var option = document.createElement("option");
+            data.forEach(element => {
+
+                var option=document.createElement("option");
+                option.value= element.id;
+                option.text= element.nombre;
+                x.appendChild(option)
+            });
+        });
+    }
+    function mostrarCampos2(){
+        idTable=$("#tabla2").val();
+        $.get('/ObtenerCampos2/'+idTable, function(data){
+
+            var x = document.getElementById("campo2");
             for (let i = x.options.length; i > 0; i--) {
                 x.remove(i);
             }

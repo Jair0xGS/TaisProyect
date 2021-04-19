@@ -21,7 +21,6 @@ class CreateIndicadorsTable extends Migration
             $table->string("tolerancia");
             $table->text("objetivo");
             $table->string("unidad");
-            $table->text("iniciativas");
             $table->string("formula");
             $table->unsignedBigInteger('formula_id');
             $table->foreign('formula_id')->references('id')->on('formulas');

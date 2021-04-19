@@ -17,6 +17,7 @@ class CreateTablerosTable extends Migration
             $table->id();
             $table->string("descripcion");
             $table->string("frecuencia");
+            $table->text("iniciativas");
             $table->string("rojo");
             $table->string("amarillo");
             $table->string("verde");
