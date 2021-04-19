@@ -338,13 +338,13 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
+                                            <a href="{{route("incidencia.index")}}" class="nav-link offset-1">
                                                 <i class="fas fa-cog nav-icon"></i>
                                                 <p>Mostrar</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
+                                            <a href="{{route("incidencia.create")}}" class="nav-link offset-1">
                                                 <i class="fas fa-cog nav-icon"></i>
                                                 <p>Registrar</p>
                                             </a>
