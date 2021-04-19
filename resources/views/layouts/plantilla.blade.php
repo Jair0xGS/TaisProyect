@@ -223,7 +223,7 @@
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
                                 <li class="nav-item has-treeview">
-                                    <a href="{{route("proceso.index",Auth::user()->Empresa->id)}}" class="nav-link">
+                                    <a href="" class="nav-link">
                                         <i class="nav-icon fas fa-cogs"></i>
                                         <p>
                                             PROCESOS
@@ -232,7 +232,7 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
+                                            <a href="{{route("proceso.index",Auth::user()->Empresa->id)}}" class="nav-link offset-1">
                                                 <i class="fas fa-eye nav-icon"></i>
                                                 <p>Mostrar</p>
                                             </a>
