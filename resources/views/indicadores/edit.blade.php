@@ -127,7 +127,7 @@
                         <div class="row">
                             <div class="form-group{{ $errors->has('parametro1') ? ' has-danger' : '' }} col-6">
                                 <label class="form-control-label" for="input-current-password">Parámetro 1</label>
-                                <input type="text" name="parametro1" id="parametro1" class="form-control form-control-alternative{{ $errors->has('parametro1') ? ' is-invalid' : '' }}" placeholder="Denominación del parámetro 1" value="{{old('parametro1')}}" >
+                                <input type="text" name="parametro1" id="parametro1" class="form-control form-control-alternative{{ $errors->has('parametro1') ? ' is-invalid' : '' }}" placeholder="Denominación del parámetro 1" value="{{$indicador->numerador}}" >
 
                                 @if ($errors->has('parametro1'))
                                     <span class="invalid-feedback" role="alert">
@@ -139,7 +139,7 @@
                             <div class="form-group{{ $errors->has('tabla1') ? ' has-danger' : '' }} col-6">
                                 <label class="form-control-label" for="input-current-password">Tabla a considerar</label>
                                 <select class="custom-select form-control-alternative{{ $errors->has('tabla1') ? ' is-invalid' : '' }}"  name="tabla1" id="tabla1" onchange="mostrarCampos1()">
-                                    <option value="0" selected>- Seleccione una tabla -</option>
+                                    <option value="{{$indicador->tabla1->id}}" selected>{{$indicador->tabla1->nombre}}</option>
                                     @foreach($tabla as $item)
                                         <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                     @endforeach
@@ -179,7 +179,7 @@
                         <div class="row" id="parametro">
                             <div class="form-group{{ $errors->has('parametro2') ? ' has-danger' : '' }} col-6">
                                 <label class="form-control-label" for="input-current-password">Parámetro 2</label>
-                                <input type="text" name="parametro2" id="parametro2" class="form-control form-control-alternative{{ $errors->has('parametro2') ? ' is-invalid' : '' }}" placeholder="Denominación del parámetro 2" value="{{old('parametro2')}}" >
+                                <input type="text" name="parametro2" id="parametro2" class="form-control form-control-alternative{{ $errors->has('parametro2') ? ' is-invalid' : '' }}" placeholder="Denominación del parámetro 2" value="{{$indicador->denominador}}" >
 
                                 @if ($errors->has('parametro2'))
                                     <span class="invalid-feedback" role="alert">
@@ -191,7 +191,7 @@
                             <div class="form-group{{ $errors->has('tabla2') ? ' has-danger' : '' }} col-6">
                                 <label class="form-control-label" for="input-current-password">Tabla a considerar</label>
                                 <select class="custom-select form-control-alternative{{ $errors->has('tabla2') ? ' is-invalid' : '' }}"  name="tabla2" id="tabla2" onchange="mostrarCampos2()">
-                                    <option value="0" selected>- Seleccione una tabla -</option>
+                                    <option value="{{$indicador->tabla1->id}}" selected>{{$indicador->tabla1->nombre}}</option>
                                     @foreach($tabla as $item)
                                         <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                     @endforeach
