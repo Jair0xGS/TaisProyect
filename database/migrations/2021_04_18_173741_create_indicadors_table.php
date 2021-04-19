@@ -33,9 +33,9 @@ class CreateIndicadorsTable extends Migration
 
             $table->string("numerador");
             $table->string("denominador")->nullable();
-            $table->unsignedBigInteger("condicion1")->nullable();
-            $table->unsignedBigInteger("condicion2")->nullable();
-            $table->unsignedBigInteger("condicion3")->nullable();
+            $table->string("condicion1")->nullable();
+            $table->string("condicion2")->nullable();
+            $table->string("condicion3")->nullable();
 
             $table->unsignedBigInteger('campo1_id')->nullable();
             $table->unsignedBigInteger('campo2_id')->nullable();

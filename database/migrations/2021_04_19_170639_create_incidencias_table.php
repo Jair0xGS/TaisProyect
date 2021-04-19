@@ -18,11 +18,9 @@ class CreateIncidenciasTable extends Migration
             $table->string("descripcion");
             $table->string("solucion")->nullable();
             $table->unsignedBigInteger('empresa_id');
-            $table->unsignedBigInteger('estado_id');
-            $table->unsignedBigInteger('categoria_id');
+            $table->String('estado');
+            $table->String('categoria');
 
-            $table->foreign('categoria_id')->references('id')->on('categorias');
-            $table->foreign('estado_id')->references('id')->on('estados');
             $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->timestamps();
         });
