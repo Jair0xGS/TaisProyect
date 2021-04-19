@@ -1,9 +1,11 @@
-@extends('layouts.plantilla')
+@role('admin')
+@if(Auth::user()->Empresa->id == Request()->empresa)
+    @extends('layouts.plantilla')
 
 @section('contenido')
     <div class="container">
         <div class="row ">
-            <a href="{{route('proceso.show',[Request()->empresa,Request()->proceso])}}" class="btn btn-success" role="button" aria-pressed="true">
+            <a href="{{route('proceso.show',[Request()->empresa,Request()->proceso])}}" class="btn btn-dark" role="button" aria-pressed="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
                 </svg>
@@ -18,11 +20,7 @@
         </div>
         <div class="row ">
             <div class="container">
-                <div class="row my-3">
-                    <div id="diagram" style="width: 100%; height: 100vh;">
 
-                    </div>
-                </div>
                 <div class="row mt-4">
                     <div class="col-10">
 
@@ -36,7 +34,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-5">
                     <div class="col">
 
                         <table class="table mb-5">
@@ -110,6 +108,34 @@
                     </div>
 
                 </div>
+                <div class="row my-5">
+                    <div class="col-8 mb-5"></div>
+                    <div class="col-2">
+                        <a href="#" onclick="generate()" class="btn btn-dark   btn-block" role="button" aria-pressed="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-word-fill" viewBox="0 0 16 16">
+                                <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5.485 4.879l1.036 4.144.997-3.655a.5.5 0 0 1 .964 0l.997 3.655 1.036-4.144a.5.5 0 0 1 .97.242l-1.5 6a.5.5 0 0 1-.967.01L8 7.402l-1.018 3.73a.5.5 0 0 1-.967-.01l-1.5-6a.5.5 0 1 1 .97-.242z"/>
+                            </svg>
+                            Export Word
+                        </a>
+                    </div>
+                    <div class="col-2">
+
+                        <a href="#" class="btn btn-main btn-block" role="button" aria-pressed="true"  onclick="generarPDF()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-code-fill" viewBox="0 0 16 16">
+                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.646 7.646a.5.5 0 1 1 .708.708L5.707 10l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zm2.708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L10.293 10 8.646 8.354a.5.5 0 1 1 .708-.708z"/>
+                            </svg>
+                            Export PDF
+
+                        </a>
+
+                    </div>
+                    <div class="col-12 mt-5">
+                    <div id="diagram" style="width: 100%; height: 110vh;">
+                    </div>
+                    </div><div class="col-12 mt-5">
+                    </div>
+
+                </div>
 
             </div>
         </div>
@@ -117,8 +143,147 @@
 @endsection
 @section("js")
     <script src="https://unpkg.com/gojs/release/go.js"></script>
-    <script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 
+    <script>
+        function toInt32(bytes) {
+            return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
+        }
+
+        function getDimensions(data) {
+            return {
+                width: toInt32(data.slice(16, 20)),
+                height: toInt32(data.slice(20, 24))
+            };
+        }
+
+        var base64Characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+        function base64Decode(data) {
+            var result = [];
+            var current = 0;
+
+            for(var i = 0, c; c = data.charAt(i); i++) {
+                if(c === '=') {
+                    if(i !== data.length - 1 && (i !== data.length - 2 || data.charAt(i + 1) !== '=')) {
+                        throw new SyntaxError('Unexpected padding character.');
+                    }
+
+                    break;
+                }
+
+                var index = base64Characters.indexOf(c);
+
+                if(index === -1) {
+                    throw new SyntaxError('Invalid Base64 character.');
+                }
+
+                current = (current << 6) | index;
+
+                if(i % 4 === 3) {
+                    result.push(current >> 16, (current & 0xff00) >> 8, current & 0xff);
+                    current = 0;
+                }
+            }
+
+            if(i % 4 === 1) {
+                throw new SyntaxError('Invalid length for a Base64 string.');
+            }
+
+            if(i % 4 === 2) {
+                result.push(current >> 4);
+            } else if(i % 4 === 3) {
+                current <<= 6;
+                result.push(current >> 16, (current & 0xff00) >> 8);
+            }
+
+            return result;
+        }
+
+        function getPngDimensions(dataUri) {
+            if (dataUri.substring(0, 22) !== 'data:image/png;base64,') {
+                throw new Error('Unsupported data URI format');
+            }
+
+            // 32 base64 characters encode the necessary 24 bytes
+            return getDimensions(base64Decode(dataUri.substr(22, 32)));
+        }
+
+
+        var myDiagram;
+        function generarImagen() {
+
+            var img = myDiagram.makeImage({
+                scale: 1,
+
+            });
+            return img
+
+        }
+        function generate() {
+            img = generarImagen();
+
+            var dimensions = getPngDimensions(img.src);
+            console.log(dimensions);
+            const doc = new docx.Document({
+                sections:[
+                    {
+
+                        children: [
+                            new docx.Paragraph({
+                                text: "Mapa Estrategico" ,
+                                heading: docx.HeadingLevel.TITLE
+                            }),
+                            new docx.Paragraph({
+                                text: `{{$data->proceso->empresa->nombre}} - {{$data->proceso->empresa->ruc}} - {{$data->proceso->empresa->direccion}}`
+                            }),
+                            new docx.Paragraph({
+                                text: "Proceso : {{$data->proceso->nombre}}"
+                            }),
+                            new docx.Paragraph({
+                                text: "Mapa de Proceso : {{$data->nombre}}"
+                            }),
+                            new docx.Paragraph({
+                                text: "Usuario : {{Auth::user()->name}} - {{Auth::user()->email}}"
+                            }),
+                            new docx.Paragraph({
+                                children:[
+                                    new docx.ImageRun({
+                                        data: img.src,
+                                        transformation: {
+                                            width: dimensions.width,
+                                            height: dimensions.height,
+                                        },
+                                    }),
+
+                                ]
+                            }),
+
+                        ]
+                    }
+                ]
+            });
+
+            docx.Packer.toBlob(doc).then(blob => {
+                console.log(blob);
+                saveAs(blob, "ejemplo.docx");
+                console.log("doc generado correctamente");
+            });
+        }
+
+        function generarPDF(){
+            const doc = new jsPDF();
+            doc.setFontSize(25);
+            doc.text("Mapa Estrategico", 20, 10);
+            doc.setFontSize(10);
+            doc.text(`{{$data->proceso->empresa->nombre}} - {{$data->proceso->empresa->ruc}} - {{$data->proceso->empresa->direccion}}`, 20, 20);
+            doc.text("Proceso : {{$data->proceso->nombre}}", 20, 25);
+            doc.text("Mapa de Proceso : {{$data->nombre}}", 20, 30);
+            doc.text("Usuario : {{Auth::user()->name}} - {{Auth::user()->email}}", 20, 35);
+            img = generarImagen();
+            doc.addImage(img.src, "png", 15, 40, 180, 180);
+            doc.save("MapaEstrategico.pdf");
+        }
         function init() {
             if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
 
@@ -348,10 +513,11 @@
 
 
 
-
         window.onload = function() {
             init()
         };
 
     </script>
 @endsection
+@endif
+@endrole

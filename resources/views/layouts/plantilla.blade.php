@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -74,11 +74,15 @@
             color: #06781f;
         }
     </style>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+    <script src="https://unpkg.com/docx@6.0.0/build/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/src/FileSaver.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
+    <script src="{{asset("js/jspdf.umd.min.js")}}"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 
-<!-- Site wrapper -->
+    <!-- Site wrapper -->
 <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light color-main ">
@@ -219,7 +223,7 @@
                                 <!-- Add icons to the links using the .nav-icon class
                                     with font-awesome or any other icon font library -->
                                 <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route("proceso.index",Auth::user()->Empresa->id)}}" class="nav-link">
                                         <i class="nav-icon fas fa-cogs"></i>
                                         <p>
                                             PROCESOS

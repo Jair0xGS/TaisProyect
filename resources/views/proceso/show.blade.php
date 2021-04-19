@@ -1,14 +1,16 @@
+@role('admin')
+@if(Auth::user()->Empresa->id == Request()->empresa)
 @extends('layouts.plantilla')
 
 @section('contenido')
     <div class="container">
         <div class="row ">
             @if($data->tipoProceso != null)
-            <a href="{{route('proceso.index',[Request()->empresa])}}" class="btn btn-success" role="button" aria-pressed="true">
+            <a href="{{route('proceso.index',[Request()->empresa])}}" class="btn btn-dark" role="button" aria-pressed="true">
                 @endif
                 @if($data->tipoProceso == null)
 
-            <a href="{{route('proceso.show',[Request()->empresa,$data->proceso_id])}}" class="btn btn-success" role="button" aria-pressed="true">
+            <a href="{{route('proceso.show',[Request()->empresa,$data->proceso_id])}}" class="btn btn-dark" role="button" aria-pressed="true">
 
                 @endif
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
@@ -201,3 +203,5 @@
         </div>
     </div>
 @endsection
+@endif
+@endrole
