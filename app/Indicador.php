@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Indicador extends Model
 {
-    function personal(){
+    public function personal(){
         return $this->belongsTo('App\Personal');
+    }
+
+    public function formulaa(){
+        return $this->belongsTo('App\Formula','formula_id','id');
     }
 }

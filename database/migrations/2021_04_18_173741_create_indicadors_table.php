@@ -31,6 +31,24 @@ class CreateIndicadorsTable extends Migration
             $table->unsignedBigInteger('personal_id')->nullable();
             $table->foreign('personal_id')->references('id')->on('personals');
 
+            $table->string("numerador");
+            $table->string("denominador");
+            $table->string("condicion1")->nullable();
+            $table->string("condicion2")->nullable();
+            $table->string("condicion3")->nullable();
+            $table->unsignedBigInteger('campo1_id')->nullable();
+            $table->unsignedBigInteger('campo2_id')->nullable();
+            $table->unsignedBigInteger('campo3_id')->nullable();
+
+            $table->foreign('campo1_id')->references('id')->on('campos');
+            $table->foreign('campo2_id')->references('id')->on('campos');
+            $table->foreign('campo3_id')->references('id')->on('campos');
+
+            $table->unsignedBigInteger('tabla1_id');
+            $table->unsignedBigInteger('tabla2_id');
+
+            $table->foreign('tabla1_id')->references('id')->on('tablas');
+            $table->foreign('tabla2_id')->references('id')->on('tablas');
             $table->timestamps();
         });
     }

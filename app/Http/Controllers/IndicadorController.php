@@ -239,8 +239,13 @@ class IndicadorController extends Controller
      */
     public function edit($id)
     {
+        $proceso = Proceso::where('empresa_id','=',Auth::user()->Empresa->id)->where('proceso_id','=',null)->get();
+        $personal = User::role('supervisor')->where('empresa_id','=',Auth::user()->Empresa->id)->get();
+        $formula = Formula::get();
+        $tabla = Tabla::get();
         $indicador=Indicador::findOrFail($id);
-        return view('indicadores.edit', compact('indicador'));
+        //return $indicador->formulaa;
+        return view('indicadores.edit',compact('proceso','personal','formula','tabla','indicador'));
     }
 
     /**
