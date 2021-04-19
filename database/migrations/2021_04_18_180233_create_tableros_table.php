@@ -18,9 +18,9 @@ class CreateTablerosTable extends Migration
             $table->string("descripcion");
             $table->string("frecuencia");
             $table->text("iniciativas");
-            $table->string("rojo");
-            $table->string("amarillo");
-            $table->string("verde");
+            $table->float("rojo");
+            $table->float("amarillo");
+            $table->float("verde");
             $table->unsignedBigInteger('indicador_id');
             $table->foreign('indicador_id')->references('id')->on('indicadors');
 
