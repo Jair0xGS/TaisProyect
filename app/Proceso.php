@@ -12,6 +12,9 @@ class Proceso extends Model
     function personal(){
         return $this->belongsTo('App\Personal');
     }
+    function empresa(){
+        return $this->belongsTo('App\Empresa');
+    }
     function procesos(){
         return $this->hasMany('App\Proceso',"proceso_id","id");
     }

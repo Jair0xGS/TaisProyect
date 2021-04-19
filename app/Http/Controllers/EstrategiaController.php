@@ -60,21 +60,24 @@ class EstrategiaController extends Controller
             }
         }
         DB::beginTransaction();
-            try {
+        try {
                 $estrategia = new Estrategia();
                 $estrategia->perspectiva_id = $request->perspectiva_id;
                 $estrategia->mapa_estrategico_id = $request->mapa_estrategico;
                 $estrategia->relacion_id = $request->relacion_id;
                 $estrategia->nombre = $request->nombre;
                 $estrategia->save();
-                foreach ($request->estrategia_id as $est) {
-                    if ($est != null){
-                    $reff = new EstrategiaRelacion();
-                    $reff->estrategia_id = $estrategia->id;
-                    $reff->estrategia_to_id = $est;
-                    $reff->save();
+                if (isset($request->estrategia_id )){
+                    foreach ( $request->estrategia_id as $est) {
+                        if ($est != null){
+                            $reff = new EstrategiaRelacion();
+                            $reff->estrategia_id = $estrategia->id;
+                            $reff->estrategia_to_id = $est;
+                            $reff->save();
 
+                        }
                     }
+
                 }
 
                 $auditoria = new Auditoria();
@@ -87,11 +90,11 @@ class EstrategiaController extends Controller
                 $auditoria->despues = $estrategia->toJson();
                 $auditoria->save();
                 DB::commit();
-            }catch (\Exception $exception ){
+                    }catch (\Exception $exception ){
 
                 DB::rollBack();
                 return redirect()->back()->with("error","fallo al crear proceso");
-            }
+                }
         return redirect()->route("mapa_estrategico.show",[$request->empresa,$request->proceso,$request->mapa_estrategico])->with("success","proceso creado correctamente");
 
     }
@@ -155,14 +158,17 @@ class EstrategiaController extends Controller
             foreach ($estrategia->estrategias as $dd){
                 $dd->delete();
             }
-            foreach ($request->estrategia_id as $est) {
-                if ($est !=null){
+            if (isset($request->estrategia_id )){
+                foreach ($request->estrategia_id as $est) {
+                    if ($est !=null){
 
-                $reff = new EstrategiaRelacion();
-                $reff->estrategia_id = $estrategia->id;
-                $reff->estrategia_to_id = $est;
-                $reff->save();
+                        $reff = new EstrategiaRelacion();
+                        $reff->estrategia_id = $estrategia->id;
+                        $reff->estrategia_to_id = $est;
+                        $reff->save();
+                    }
                 }
+
             }
             $auditoria = new Auditoria();
             $auditoria->tabla = "estrategia";

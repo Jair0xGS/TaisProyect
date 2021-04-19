@@ -9,4 +9,7 @@ class MapaEstrategico extends Model
     function estrategias(){
         return $this->hasMany('App\Estrategia',"mapa_estrategico_id","id");
     }
+    function proceso(){
+        return $this->belongsTo('App\Proceso');
+    }
 }

@@ -1,3 +1,5 @@
+@role('admin')
+@if(Auth::user()->Empresa->id == Request()->empresa)
 @extends('layouts.plantilla')
 
 @section('contenido')
@@ -101,3 +103,5 @@
         </div>
     </div>
 @endsection
+@endif
+@endrole
