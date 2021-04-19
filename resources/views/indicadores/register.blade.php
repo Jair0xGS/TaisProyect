@@ -185,8 +185,19 @@
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
-                                <input type="text" name="condicion1" id="condicion1" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición1')}}" >
+                                <input type="text" name="condicion1" id="condicion1" class="form-control form-control-alternative" placeholder="Campo 1" value="{{old('condición1')}}" >
 
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
+                                <select class="custom-select form-control-alternative"  name="campo2" id="campo2">
+                                    <option value="0" selected>- Seleccione un campo -</option>
+                                </select>
+
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
+                                <input type="text" name="condicion2" id="condicion2" class="form-control form-control-alternative" placeholder="Campo 2" value="{{old('condición2')}}" >
                             </div>
 
                         </div><br>
@@ -219,14 +230,14 @@
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
-                                <select class="custom-select form-control-alternative"  name="campo2" id="campo2">
+                                <select class="custom-select form-control-alternative"  name="campo3" id="campo3">
                                     <option value="0" selected>- Seleccione un campo -</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
-                                <input type="text" name="condicion2" id="condicion2" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición2')}}" >
+                                <input type="text" name="condicion3" id="condicion3" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición3')}}" >
 
                             </div>
                         </div>
@@ -301,8 +312,10 @@
             $.get('/ObtenerCampos1/'+idTable, function(data){
 
                 var x = document.getElementById("campo1");
+                var y = document.getElementById("campo2");
                 for (let i = x.options.length; i > 0; i--) {
                     x.remove(i);
+                    y.remove(i);
                 }
                 var option = document.createElement("option");
                 data.forEach(element => {
@@ -310,7 +323,15 @@
                     var option=document.createElement("option");
                     option.value= element.id;
                     option.text= element.nombre;
-                    x.appendChild(option)
+                    x.appendChild(option);
+                });
+                var option2 = document.createElement("option");
+                data.forEach(element => {
+
+                    var option2=document.createElement("option");
+                    option2.value= element.id;
+                    option2.text= element.nombre;
+                    y.appendChild(option2);
                 });
             });
         }
@@ -318,7 +339,7 @@
             idTable=$("#tabla2").val();
             $.get('/ObtenerCampos2/'+idTable, function(data){
 
-                var x = document.getElementById("campo2");
+                var x = document.getElementById("campo3");
                 for (let i = x.options.length; i > 0; i--) {
                     x.remove(i);
                 }

@@ -135,19 +135,24 @@ class IndicadorController extends Controller
 
         $c1 = 0;
         $c2 = 0;
+        $c3 = 0;
         $mensaje = "";
         if($request->campo1>0)
             $c1=$c1+1;
         if($request->campo2>0)
             $c2=$c2+1;
+        if($request->campo3>0)
+            $c3=$c3+1;
         if($request->condicion1!=null)
             $c1=$c1+1;
         if($request->condicion2!=null)
             $c2=$c2+1;
+        if($request->condicion3!=null)
+            $c3=$c3+1;
 
-        if($c1==1)
+        if($c1==1||$c2==1)
             $mensaje = $mensaje."Parámetro 1: Si desea utilizar una condición, asegúrese de seleccionar el campo e ingresar la condición. ";
-        if($c2==1&&$request->formula_id!=3)
+        if($c3==1&&$request->formula_id!=3)
             $mensaje = $mensaje."Parámetro 2: Si desea utilizar una condición, asegúrese de seleccionar el campo e ingresar la condición";
 
         if($mensaje!="")
@@ -174,6 +179,25 @@ class IndicadorController extends Controller
         $indicador->proceso_id=$request->proceso_id;
         $indicador->personal_id=$request->personal_id;
         $indicador->empresa_id=Auth::user()->Empresa->id;
+        $indicador->numerador= $request->parametro1;
+        if($request->campo1>0){
+            $indicador->campo1_id= $request->campo1;
+            $indicador->condicion1= $request->condicion1;
+        }
+        if($request->campo2>0){
+            $indicador->campo2_id= $request->campo2;
+            $indicador->condicion2= $request->condicion2;
+        }
+        $indicador->tabla1_id= $request->tabla1;
+
+        if($request->formula_id!=3){
+            $indicador->denominador= $request->parametro2;
+            if($request->campo3>0){
+                $indicador->campo3_id= $request->campo3;
+                $indicador->condicion3= $request->condicion3;
+            }
+            $indicador->tabla2_id= $request->tabla2;
+        }
         $indicador->save();
 
         $auditoria = new Auditoria();
@@ -192,30 +216,6 @@ class IndicadorController extends Controller
         ], JSON_UNESCAPED_UNICODE);
         $auditoria->empresa_id = Auth::user()->Empresa->id;
         $auditoria->save();
-
-        $parametro1 = new Parametro();
-        $parametro1->nombre= $request->parametro1;
-        $parametro1->indicador_id= $indicador->id;
-        $parametro1->is_numerador= true;
-        $parametro1->tabla_id= $request->tabla1;
-        if($request->campo1>0){
-            $parametro1->campo_id= $request->campo1;
-            $parametro1->condicion= $request->condicion1;
-        }
-        $parametro1->save();
-
-        if($request->formula_id!=3){
-            $parametro2 = new Parametro();
-            $parametro2->nombre= $request->parametro2;
-            $parametro2->indicador_id= $indicador->id;
-            $parametro2->is_numerador= false;
-            $parametro2->tabla_id= $request->tabla2;
-            if($request->campo2>0){
-                $parametro2->campo_id= $request->campo2;
-                $parametro2->condicion= $request->condicion2;
-            }
-            $parametro2->save();
-        }
 
         return redirect()->route('indicador.index')->with('datos', '¡Registro guardado con éxito!');
     }

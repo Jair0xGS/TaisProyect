@@ -32,7 +32,7 @@ class CreateIndicadorsTable extends Migration
             $table->foreign('personal_id')->references('id')->on('personals');
 
             $table->string("numerador");
-            $table->string("denominador");
+            $table->string("denominador")->nullable();
             $table->string("condicion1")->nullable();
             $table->string("condicion2")->nullable();
             $table->string("condicion3")->nullable();
