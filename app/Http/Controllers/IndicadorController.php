@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Campos;
 use App\Formula;
-use App\Personal;
+use App\Indicador;
+use App\Parametro;
+use App\Auditoria;
 use App\Proceso;
 use App\Tabla;
 use App\User;
@@ -57,81 +59,165 @@ class IndicadorController extends Controller
 
     public function store(Request $request)
     {
-        $data=request()->validate([
-            'descripcion'=>'required',
-            'objeto_medicion'=>'required',
-            'tolerancia'=>'required',
-            'mecanismo'=>'required',
-            'objetivo'=>'required',
-            'unidad'=>'required',
-            'parametro1'=>'required',
-            'personal_id'=>'required',
-        ],
-            [
-                'descripcion.required'=>'Ingrese la denominación para el indicador.',
-                'objeto medición.required'=>'Responda a la pregunta: ¿Qué se mide?.',
-                'tolerancia.required'=>'Indique la tolerancia que admite el indicador.',
-                'mecanismo.required'=>'Ingrese el Mecanismo de medición.',
-                'objetivo.required'=>'Ingrese el objetivo del indicador.',
-                'unidad.required'=>'Ingrese la unidad del indicador.',
-                'parametro1.required'=>'Ingresar el parámetro 1.',
-                'personal_id.required'=>'Ingresar personal.',
-            ]
-        );
+        if($request->formula_id==3)
+        {
+            $data=request()->validate([
+                'descripcion'=>'required',
+                'objeto_medicion'=>'required',
+                'tolerancia'=>'required',
+                'mecanismo'=>'required',
+                'objetivo'=>'required',
+                'unidad'=>'required',
+                'parametro1'=>'required',
+                'personal_id'=>'numeric|min:1',
+                'proceso_id'=>'numeric|min:1',
+                'formula_id'=>'numeric|min:1',
+                'tabla1'=>'numeric|min:1',
+            ],
+                [
+                    'descripcion.required'=>'Ingrese la denominación para el indicador.',
+                    'objeto medición.required'=>'Responda a la pregunta: ¿Qué se mide?.',
+                    'tolerancia.required'=>'Indique la tolerancia que admite el indicador.',
+                    'mecanismo.required'=>'Ingrese el Mecanismo de medición.',
+                    'objetivo.required'=>'Ingrese el objetivo del indicador.',
+                    'unidad.required'=>'Ingrese la unidad del indicador.',
+                    'parametro1.required'=>'Ingresar el parámetro 1.',
+                    'personal_id.numeric'=>'número.',
+                    'personal_id.min'=>'Seleccione al responsable de la medición del indicador.',
+                    'proceso_id.numeric'=>'número.',
+                    'proceso_id.min'=>'Seleccione un proceso.',
+                    'formula_id.numeric'=>'número.',
+                    'formula_id.min'=>'Seleccione un tipo de fórmula.',
+                    'tabla1.numeric'=>'número.',
+                    'tabla1.min'=>'Seleccione la tabla para trabajar con el parámetro 1.',
+                ]
+            );
+        }else{
+            $data=request()->validate([
+                'descripcion'=>'required',
+                'objeto_medicion'=>'required',
+                'tolerancia'=>'required',
+                'mecanismo'=>'required',
+                'objetivo'=>'required',
+                'unidad'=>'required',
+                'parametro1'=>'required',
+                'personal_id'=>'numeric|min:1',
+                'proceso_id'=>'numeric|min:1',
+                'formula_id'=>'numeric|min:1',
+                'tabla1'=>'numeric|min:1',
+                'tabla2'=>'numeric|min:1',
+                'parametro2'=>'required',
+            ],
+                [
+                    'descripcion.required'=>'Ingrese la denominación para el indicador.',
+                    'objeto medición.required'=>'Responda a la pregunta: ¿Qué se mide?.',
+                    'tolerancia.required'=>'Indique la tolerancia que admite el indicador.',
+                    'mecanismo.required'=>'Ingrese el Mecanismo de medición.',
+                    'objetivo.required'=>'Ingrese el objetivo del indicador.',
+                    'unidad.required'=>'Ingrese la unidad del indicador.',
+                    'parametro1.required'=>'Ingresar el parámetro 1.',
+                    'personal_id.numeric'=>'número.',
+                    'personal_id.min'=>'Seleccione al responsable de la medición del indicador.',
+                    'proceso_id.numeric'=>'número.',
+                    'proceso_id.min'=>'Seleccione un proceso.',
+                    'formula_id.numeric'=>'número.',
+                    'formula_id.min'=>'Seleccione un tipo de fórmula.',
+                    'tabla1.numeric'=>'número.',
+                    'tabla1.min'=>'Seleccione la tabla para trabajar con el parámetro 1.',
+                    'tabla2.numeric'=>'número.',
+                    'tabla2.min'=>'Seleccione la tabla para trabajar con el parámetro 2.',
+                    'parametro2.required'=>'Ingresar el parámetro 2.',
+                ]
+            );
+        }
+        if($request->subproceso_id>0)
+            $request->proceso_id = $request->subproceso_id;
 
-        // DB::transaction(function ($request) {
-        $empresa= new Empresa();
-        $empresa->ruc=$request->ruc;
-        $empresa->nombre=$request->nombre;
-        $empresa->descripcion=$request->descripcion;
-        $empresa->telefono=$request->telefono;
-        $empresa->email=$request->email;
-        $empresa->direccion=$request->direccion;
+        $c1 = 0;
+        $c2 = 0;
+        $mensaje = "";
+        if($request->campo1>0)
+            $c1=$c1+1;
+        if($request->campo2>0)
+            $c2=$c2+1;
+        if($request->condicion1!=null)
+            $c1=$c1+1;
+        if($request->condicion2!=null)
+            $c2=$c2+1;
 
-        $empresa->save();
+        if($c1==1)
+            $mensaje = $mensaje."Parámetro 1: Si desea utilizar una condición, asegúrese de seleccionar el campo e ingresar la condición. ";
+        if($c2==1&&$request->formula_id!=3)
+            $mensaje = $mensaje."Parámetro 2: Si desea utilizar una condición, asegúrese de seleccionar el campo e ingresar la condición";
+
+        if($mensaje!="")
+            return redirect()->route('indicador.create')->with('datos', $mensaje);
+        if($request->formula_id==1)
+            $formula = "[1-Σ(".$request->parametro1.")/(".$request->parametro2.")]*100%";
+        else{
+            if($request->formula_id==2)
+                $formula = "[Σ(".$request->parametro1.")/Σ(".$request->parametro2.")]*100%";
+            else
+                $formula = "Σ(".$request->parametro1.")";
+        }
+        //});
+
+        $indicador= new Indicador();
+        $indicador->descripcion=$request->descripcion;
+        $indicador->objeto_medicion=$request->objeto_medicion;
+        $indicador->mecanismo=$request->mecanismo;
+        $indicador->tolerancia=$request->tolerancia;
+        $indicador->objetivo=$request->objetivo;
+        $indicador->unidad=$request->unidad;
+        $indicador->formula=$formula;
+        $indicador->formula_id=$request->formula_id;
+        $indicador->proceso_id=$request->proceso_id;
+        $indicador->personal_id=$request->personal_id;
+        $indicador->empresa_id=Auth::user()->Empresa->id;
+        $indicador->save();
 
         $auditoria = new Auditoria();
-        $auditoria->tabla = 'EMPRESA';
+        $auditoria->tabla = 'INDICADOR';
         $auditoria->accion = 'REGISTRAR';
         $auditoria->terminal = gethostbyname(gethostname());
         $auditoria->user_id = Auth::user()->id;
         $auditoria->nombre = Auth::user()->name;
         $auditoria->despues = json_encode([
-            'RUC' => $request->ruc,
-            'Nombre' => $request->nombre,
-            'Descripcion' => $request->descripcion,
-            'Telefono' => $request->telefono,
-            'Email' => $request->email,
-            'Direccion' => $request->direccion,
+            'Indicador' => $request->descripcion,
+            'Mecanismo' => $request->mecanismo,
+            'Tolerancia' => $request->tolerancia,
+            'Objetivo' => $request->objetivo,
+            'Unidad' => $request->unidad,
+            'Formula' => $request->formula,
         ], JSON_UNESCAPED_UNICODE);
-        $auditoria->empresa_id = $empresa->id;
+        $auditoria->empresa_id = Auth::user()->Empresa->id;
         $auditoria->save();
 
-        $user = new User();
-        $user->name = $request->ruc."_admin";
-        $user->email= "admin_".$request->ruc."@bpm.com";
-        $user->password= \Illuminate\Support\Facades\Hash::make("password");
-        $user->empresa_id= $empresa->id;
-        $user->assignRole('admin');
-        $user->save();
+        $parametro1 = new Parametro();
+        $parametro1->nombre= $request->parametro1;
+        $parametro1->indicador_id= $indicador->id;
+        $parametro1->is_numerador= true;
+        $parametro1->tabla_id= $request->tabla1;
+        if($request->campo1>0){
+            $parametro1->campo_id= $request->campo1;
+            $parametro1->condicion= $request->condicion1;
+        }
+        $parametro1->save();
 
-        $auditoriaU = new Auditoria();
-        $auditoriaU->tabla = 'USER';
-        $auditoriaU->accion = 'REGISTRAR';
-        $auditoriaU->terminal = gethostbyname(gethostname());
-        $auditoriaU->user_id = Auth::user()->id;
-        $auditoriaU->nombre = Auth::user()->name;
-        $auditoriaU->despues = json_encode([
-            'Nombre' => $user->name,
-            'Email' => $user->email,
-            'Rol' => 'admin',
-            'Empresa' => $user->empresa_id
-        ], JSON_UNESCAPED_UNICODE);
-        $auditoriaU->empresa_id = $user->empresa_id;
-        $auditoriaU->save();
+        if($request->formula_id!=3){
+            $parametro2 = new Parametro();
+            $parametro2->nombre= $request->parametro2;
+            $parametro2->indicador_id= $indicador->id;
+            $parametro2->is_numerador= false;
+            $parametro2->tabla_id= $request->tabla2;
+            if($request->campo2>0){
+                $parametro2->campo_id= $request->campo2;
+                $parametro2->condicion= $request->condicion2;
+            }
+            $parametro2->save();
+        }
 
-        return redirect()->route('empresa.index')->with('datos', '¡Registro nuevo guardado!');
-        //});
+        return redirect()->route('indicador.index')->with('datos', '¡Registro guardado con éxito!');
     }
 
     /**
@@ -153,7 +239,8 @@ class IndicadorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $indicador=Indicador::findOrFail($id);
+        return view('indicadores.edit', compact('indicador'));
     }
 
     /**

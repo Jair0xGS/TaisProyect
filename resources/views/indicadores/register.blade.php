@@ -10,6 +10,14 @@
         </div>
 
     </div>
+    @if(session('datos'))
+        <div class="col-12 mb-3 alert alert-warning alert-dismissible fade show" role="alert" style="position: relative; width:100%">
+            <strong>ATENCIÓN</strong> {{session('datos')}}.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="m-5">
         <form method="POST" action="{{route('indicador.store')}}" class="m-5">
             @csrf
@@ -18,7 +26,7 @@
                 <div class="col-12 row">
                     <div class="form-group{{ $errors->has('descripcion') ? ' has-danger' : '' }} col-lg-4 col-md-12">
                         <label class="form-control-label" for="input-current-password">Denominación</label>
-                        <input type="text" name="descripcion" id="descripcion" class="form-control form-control-alternative{{ $errors->has('descripcion') ? ' is-invalid' : '' }}" placeholder="RUC" value="{{old('descripcion')}}" >
+                        <input type="text" name="descripcion" id="descripcion" class="form-control form-control-alternative{{ $errors->has('descripcion') ? ' is-invalid' : '' }}" placeholder="Nombre" value="{{old('descripcion')}}" >
 
                         @if ($errors->has('descripcion'))
                             <span class="invalid-feedback" role="alert">
@@ -52,7 +60,7 @@
 
                     <div class="form-group{{ $errors->has('objeto_medicion') ? ' has-danger' : '' }} col-lg-4 col-md-12">
                         <label class="form-control-label" for="input-current-password">Objeto de medición</label>
-                        <textarea rows="3" type="text" name="objeto_medicion" id="objeto_medicion" class="form-control form-control-alternative{{ $errors->has('objeto_medicion') ? ' is-invalid' : '' }}" placeholder="Objeto de medición" value="{{old('objeto_medicion')}}"></textarea>
+                        <textarea rows="3" type="text" name="objeto_medicion" id="objeto_medicion" class="form-control form-control-alternative{{ $errors->has('objeto_medicion') ? ' is-invalid' : '' }}" placeholder="Objeto de medición">{{old('objeto_medicion')}}</textarea>
 
                         @if ($errors->has('objeto_medicion'))
                             <span class="invalid-feedback" role="alert">
@@ -63,7 +71,7 @@
 
                     <div class="form-group{{ $errors->has('mecanismo') ? ' has-danger' : '' }} col-lg-4 col-md-12">
                         <label class="form-control-label" for="input-current-password">Mecanismos de medición</label>
-                        <textarea rows="3" type="text" name="mecanismo" id="mecanismo" class="form-control form-control-alternative{{ $errors->has('mecanismo') ? ' is-invalid' : '' }}" placeholder="Mecanismo de medición" value="{{old('mecanismo')}}"></textarea>
+                        <textarea rows="3" type="text" name="mecanismo" id="mecanismo" class="form-control form-control-alternative{{ $errors->has('mecanismo') ? ' is-invalid' : '' }}" placeholder="Mecanismo de medición">{{old('mecanismo')}}</textarea>
 
                         @if ($errors->has('mecanismo'))
                             <span class="invalid-feedback" role="alert">
@@ -74,7 +82,7 @@
 
                     <div class="form-group{{ $errors->has('objetivo') ? ' has-danger' : '' }} col-lg-4 col-md-12">
                         <label class="form-control-label" for="input-current-password">Objetivo</label>
-                        <textarea rows="3" type="text" name="objetivo" id="objetivo" class="form-control form-control-alternative{{ $errors->has('objetivo') ? ' is-invalid' : '' }}" placeholder="Objetivo" value="{{old('objetivo')}}"></textarea>
+                        <textarea rows="3" type="text" name="objetivo" id="objetivo" class="form-control form-control-alternative{{ $errors->has('objetivo') ? ' is-invalid' : '' }}" placeholder="Objetivo">{{old('objetivo')}}</textarea>
 
                         @if ($errors->has('objetivo'))
                             <span class="invalid-feedback" role="alert">
@@ -85,6 +93,7 @@
                     <div class="form-group{{ $errors->has('personal_id') ? ' has-danger' : '' }} col-lg-4 col-md-12">
                         <label class="form-control-label" for="input-current-password">Responsable</label>
                         <select class="custom-select form-control-alternative{{ $errors->has('personal_id') ? ' is-invalid' : '' }}"  name="personal_id" id="personal_id">
+                            <option value="0" selected>- Seleccione un responsable -</option>
                             @foreach($personal as $itm)
                                 <option value="{{ $itm->Personal->id }}">{{ $itm->Personal->nombres }} {{ $itm->Personal->apellidos }} - {{ $itm->Personal->Puesto->nombre }}</option>
                             @endforeach
@@ -99,7 +108,7 @@
 
                     <div class="form-group{{ $errors->has('tolerancia') ? ' has-danger' : '' }} col-lg-2 col-md-12">
                         <label class="form-control-label" for="input-current-password">Tolerancia de desviación</label>
-                        <input type="text" name="tolerancia" id="tolerancia" class="form-control form-control-alternative{{ $errors->has('tolerancia') ? ' is-invalid' : '' }}" placeholder="Tolerancia" value="{{old('tolerancia')}}" >
+                        <input type="number" name="tolerancia" id="tolerancia" step="0.01"  min="0" max="100" class="form-control form-control-alternative{{ $errors->has('tolerancia') ? ' is-invalid' : '' }}" placeholder="Tolerancia" value="{{old('tolerancia')}}" >
 
                         @if ($errors->has('tolerancia'))
                             <span class="invalid-feedback" role="alert">
@@ -152,15 +161,19 @@
                             @endif
 
                         </div>
-                        <div class="form-group col-6">
+                        <div class="form-group{{ $errors->has('tabla1') ? ' has-danger' : '' }} col-6">
                             <label class="form-control-label" for="input-current-password">Tabla a considerar</label>
-                            <select class="custom-select form-control-alternative"  name="tabla1" id="tabla1" onchange="mostrarCampos1()">
+                            <select class="custom-select form-control-alternative{{ $errors->has('tabla1') ? ' is-invalid' : '' }}"  name="tabla1" id="tabla1" onchange="mostrarCampos1()">
                                 <option value="0" selected>- Seleccione una tabla -</option>
                                 @foreach($tabla as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
                             </select>
-
+                            @if ($errors->has('tabla1'))
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('tabla1') }}</strong>
+                                    </span>
+                            @endif
                         </div>
                         <div class="form-group col-6">
                             <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
@@ -171,27 +184,37 @@
                         </div>
                         <div class="form-group col-6">
                             <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
-                            <input type="text" name="condición1" id="condición1" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición1')}}" >
+                            <input type="text" name="condicion1" id="condicion1" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición1')}}" >
 
                         </div>
 
                     </div><br>
                         <hr style="height: 1px">
                     <div class="row" id="parametro">
-                        <div class="form-group col-6">
+                        <div class="form-group{{ $errors->has('parametro2') ? ' has-danger' : '' }} col-6">
                             <label class="form-control-label" for="input-current-password">Parámetro 2</label>
-                            <input type="text" name="parametro2" id="parametro2" class="form-control form-control-alternative" placeholder="Denominación del parámetro 2" value="{{old('parametro2')}}" >
+                            <input type="text" name="parametro2" id="parametro2" class="form-control form-control-alternative{{ $errors->has('parametro2') ? ' is-invalid' : '' }}" placeholder="Denominación del parámetro 2" value="{{old('parametro2')}}" >
+
+                            @if ($errors->has('parametro2'))
+                                <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('parametro2') }}</strong>
+                            </span>
+                            @endif
 
                         </div>
-                        <div class="form-group col-6">
+                        <div class="form-group{{ $errors->has('tabla2') ? ' has-danger' : '' }} col-6">
                             <label class="form-control-label" for="input-current-password">Tabla a considerar</label>
-                            <select class="custom-select form-control-alternative"  name="tabla2" id="tabla2" onchange="mostrarCampos2()">
+                            <select class="custom-select form-control-alternative{{ $errors->has('tabla2') ? ' is-invalid' : '' }}"  name="tabla2" id="tabla2" onchange="mostrarCampos2()">
                                 <option value="0" selected>- Seleccione una tabla -</option>
                                 @foreach($tabla as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
                             </select>
-
+                            @if ($errors->has('tabla2'))
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('tabla2') }}</strong>
+                                    </span>
+                            @endif
                         </div>
                         <div class="form-group col-6">
                             <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
@@ -202,7 +225,7 @@
                         </div>
                         <div class="form-group col-6">
                             <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
-                            <input type="text" name="condición2" id="condición2" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición2')}}" >
+                            <input type="text" name="condicion2" id="condicion2" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición2')}}" >
 
                         </div>
                     </div>
@@ -265,9 +288,12 @@
     function mostrarParametros(){
         idFormula=$("#formula_id").val();
         $('#parametro').removeClass("d-none").addClass("parametro");
+        $('#tolerancia').attr('step', 0.01);
 
-        if(idFormula ==3)
+        if(idFormula ==3) {
             $('#parametro').removeClass("parametro").addClass("d-none");
+            $('#tolerancia').attr('step', 1);
+        }
     }
     function mostrarCampos1(){
         idTable=$("#tabla1").val();

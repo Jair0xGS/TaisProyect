@@ -31,7 +31,7 @@
         <div class="row">
 
             <div class="col mb-3">
-                <h1>Registrar Puesto</h1>
+                <h1>Registrar Proceso</h1>
 
             </div>
         </div>

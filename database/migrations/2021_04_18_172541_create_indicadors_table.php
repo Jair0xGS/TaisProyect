@@ -18,7 +18,7 @@ class CreateIndicadorsTable extends Migration
             $table->string("descripcion");
             $table->text("objeto_medicion");
             $table->text("mecanismo");
-            $table->string("tolerancia");
+            $table->float("tolerancia");
             $table->text("objetivo");
             $table->string("unidad");
             $table->string("formula");
