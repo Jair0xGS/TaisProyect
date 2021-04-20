@@ -38,7 +38,50 @@
                         <div class="col-12 my-4">
                             <div class="container">
                                 <div class="row ">
+                                    <div class="col-9">
+
                                     <h3>{{$elem->descripcion}}</h3>
+                                    </div>
+
+                                    <div class="col-1">
+
+                                        <a href="{{route('tablero.show',[Request()->indicador,$elem->id])}}" class=" p-0 btn-lg btn-block" aria-pressed="true"><i class="fas fa-eye text-success"></i>
+                                        </a>
+
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="{{route('tablero.edit',[Request()->indicador,$elem->id])}}" class=" p-0 btn-lg btn-block" aria-pressed="true"><i class="fas fa-pen-square btn-editar"></i>
+                                        </a>
+
+                                    </div>
+                                    <div class="col-1">
+                                        <a  class="p-0 btn-lg btn-block" aria-pressed="true"><i class="fas fa-trash-alt btn-eliminar" aria-pressed="true" data-toggle="modal" data-target="#exampleModal{{$elem->id}}"></i>
+                                        </a>
+                                        <div class="modal fade" id="exampleModal{{$elem->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Borrado</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Seguro que desea borrar este proceso ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                        {!! Form::open(['action' => ['TableroController@destroy',Request()->indicador,$elem->id],'method'=>'POST']) !!}
+                                                        {{Form::hidden('_method','DELETE')}}
+                                                        {{Form::submit('Borrar',['class'=>'btn btn-dark'])}}
+                                                        {!! Form::close() !!}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="table-responsive">

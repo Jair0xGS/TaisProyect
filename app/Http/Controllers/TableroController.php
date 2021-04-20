@@ -313,9 +313,9 @@ class TableroController extends Controller
      */
     public function create(Request $request)
     {
-        $incidencia = Indicador::findOrFail($request->indicador);
+        $indicador = Indicador::findOrFail($request->indicador);
 
-        return view("tablero.register",compact("incidencia"));
+        return view("tablero.register",compact("indicador"));
     }
 
     /**
@@ -335,7 +335,6 @@ class TableroController extends Controller
             ]
         );
         $indicador = Indicador::findOrFail($request->indicador);
-        $total = $indicador->tableros->count();
         DB::beginTransaction();
         try {
             $tablero = new Tablero();
@@ -362,7 +361,7 @@ class TableroController extends Controller
 
             $tablero->rojo =0;
             $tablero->indicador_id =$indicador->id;
-            $tablero->descripcion  = "Version ".$total;
+            $tablero->descripcion  = "Version ".Carbon::parse(Carbon::now())->format('d/m/Y H:i:s');
             $tablero->save();
 
             $auditoria = new Auditoria();
@@ -426,12 +425,29 @@ class TableroController extends Controller
             ]
         );
         DB::beginTransaction();
+
+        $indicador = Indicador::findOrFail($request->indicador);
         try {
             $tablero = Tablero::findOrFail($request->tablero);
             $tablero->frecuencia =$request->frecuencia;
             $tablero->iniciativas =$request->iniciativas;
             $tablero->verde =$request->verde;
             $tablero->verde_operador =$request->verde_operador;
+            if ($request->verde_operador == ">"){
+                $tablero->amarillo =$request->verde-$indicador->tolerancia;
+            }
+
+            if ($request->verde_operador == ">="){
+                $tablero->amarillo =$request->verde-$indicador->tolerancia;
+            }
+
+            if ($request->verde_operador == "<"){
+                $tablero->amarillo =$request->verde+$indicador->tolerancia;
+            }
+
+            if ($request->verde_operador == "<="){
+                $tablero->amarillo =$request->verde+$indicador->tolerancia;
+            }
             $tablero->save();
 
             $auditoria = new Auditoria();
@@ -459,8 +475,30 @@ class TableroController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $proceso = Tablero::findOrFail($request->tablero);
+
+            $auditoria = new Auditoria();
+            $auditoria->tabla ="tablero";
+            $auditoria->accion ="borrar";
+            $auditoria->terminal =$request->ip();
+            $auditoria->empresa_id =Auth::user()->empresa_id;
+            $auditoria->user_id =Auth::id();
+            $auditoria->nombre   =Auth::user()->name;
+            $auditoria->antes = $proceso->toJson();
+            $proceso->delete();
+            $auditoria->save();
+            DB::commit();
+            return redirect()->route("tablero.index",$request->indicador)->with("success","Tablero borrado correctamente");
+        }catch (\Throwable $exception ){
+
+            DB::rollBack();
+            report($exception);
+            return redirect()->route("proceso.index",$request->empresa)->with("error","Fallo al borrar Tablero");
+        }
+
     }
 }
