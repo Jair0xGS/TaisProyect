@@ -28,13 +28,7 @@
                 <span class="font-weight-bold ml-3" >REGISTRAR PROCESO</span>
             </div>
         </div>
-        <div class="row">
 
-            <div class="col mb-3">
-                <h1>Registrar Proceso</h1>
-
-            </div>
-        </div>
             <div class="row">
 
                 <div class="col-6 mt-5">

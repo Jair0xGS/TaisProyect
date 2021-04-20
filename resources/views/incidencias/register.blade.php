@@ -46,7 +46,7 @@
                 <div class="col-6 mt-5">
                     <div class="form-group">
                         {{Form::label('categoria','Categoria')}}
-                        {{Form::select('categoria',["Cliente"=>"Cliente","Equipo"=>"Equipo"],null,['class'=> eClass( $errors->getBag('default')->first('categoria')),'placeholder'=>'Personal'])}}
+                        {{Form::select('categoria',["Cliente"=>"Cliente","Equipo"=>"Equipo"],null,['class'=> eClass( $errors->getBag('default')->first('categoria')),'placeholder'=>'Categoria'])}}
                         <div class="invalid-feedback">
                             @error('categoria') {{$message}} @enderror
                         </div>

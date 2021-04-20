@@ -56,7 +56,7 @@
             <div class="col-4 mt-5">
                 <div class="form-group">
                     {{Form::label('estado','Estado')}}
-                    {{Form::select('estado',["Solucionado"=>"Solucionado","Sin Solucionar"=>"Sin Solucionar" ],$data->estado,['onclick'=>'trigger(this)','class'=> eClass( $errors->getBag('default')->first('estado')),'placeholder'=>'Personal'])}}
+                    {{Form::select('estado',["Solucionado"=>"Solucionado","Sin Solucionar"=>"Sin Solucionar" ],$data->estado,['onclick'=>'trigger(this)','class'=> eClass( $errors->getBag('default')->first('estado')),'placeholder'=>'Estado'])}}
                     <div class="invalid-feedback">
                         @error('estado') {{$message}} @enderror
                     </div>
