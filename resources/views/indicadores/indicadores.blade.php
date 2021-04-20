@@ -45,7 +45,7 @@
                         <td>{{$itemIndicador->unidad}}</td>
                         <td>
                             <div class="color-titulo row" style="font-size: 25px">
-                                <a href="" class="col-12 p-0"><i class="fas fa-eye btn-eliminar"></i></a>
+                                <a href="{{route("tablero.index",$itemIndicador->id)}}" class="col-12 p-0"><i class="fas fa-eye btn-eliminar"></i></a>
                             </div>
 
                         </td>

@@ -25,7 +25,6 @@ class TableroController extends Controller
         $indicador = Indicador::findOrFail($request->indicador);
         $dbNum = DB::table($indicador->tabla1->nombre)->where("empresa_id",Auth::user()->empresa_id);
         //check if denominador es cero
-
         //obtener condicion si campo 1 no es nulo
         if ($indicador->campo1_id !=null){
 
@@ -37,7 +36,6 @@ class TableroController extends Controller
         }
         //obtener los registros
         $numeradores = $dbNum->get();
-
        //return $numeradores->groupBy(function($d){
        //     return Carbon::parse($d->created_at)->format('y');
        // });;
@@ -302,7 +300,6 @@ class TableroController extends Controller
             }
 
         }
-
         return view("tablero.index",compact("data","indicador"));
      }
 
