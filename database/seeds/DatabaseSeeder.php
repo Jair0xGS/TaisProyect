@@ -40,33 +40,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CampoSeeder::class);
         $this->call(EstadoSeeder::class);
         $this->call(CategoriaSeeder::class);
-        DB::table('indicadors')->insert([
-            'descripcion' => "descripcion",
-            'mecanismo' => "mecanismo",
-            'tolerancia' => 5,
-            'formula' => "mecanismo",
-            'objetivo' => "objetivo",
-            'unidad' => "unidad",
-            'objeto_medicion' => "objeto",
-            'formula_id' => 1,
-            'empresa_id' => 1,
-            'proceso_id' => 1,
-            'personal_id' => 1,
 
-            'condicion1' => 1,
-            'condicion2' => 1,
-            'condicion3' => 1,
-
-            'campo1_id' => 1,
-            'campo2_id' => 2,
-            'campo3_id' => 1,
-
-            'tabla1_id' => 1,
-            'tabla2_id' => 1,
-
-            'numerador' => "numerador",
-            'denominador' => "denominador",
-        ]);
 
 
 DB::table('estados')->insert([
@@ -84,16 +58,57 @@ DB::table('categorias')->insert([
 DB::table('categorias')->insert([
             'descripcion' => "Equipo",
         ]);
+        $incidenicasEq =[
+            [
+                "Falla de sensor",
+                "Reparacion",
+                ],
+            [
+                "Falla de impresora",
+                "Reparacion",
+                ],
+            [
+                "Falla de camara",
+                "Reparacion",
+                ],
+            [
+                "Falla de monitor",
+                "Reparacion",
+                ],
 
+        ];
+ $incidenicasClie =[
+            [
+                "Queja Mala Atencion",
+                "Solucion de queja",
+                ],[
+                "Tardanza en Atencion",
+                "Hablar con personal",
+                ],
 
-        for ($i = 1; $i <= 400; $i++) {
+        ];
+
+        for ($i = 1; $i <= 100; $i++) {
 
             DB::table('incidencias')->insert([
-                'descripcion' => "inc",
-                'solucion' => "sol",
+                'descripcion' => $incidenicasEq[rand(0,count($incidenicasEq)-1)][0],
+                'solucion' =>  $incidenicasEq[rand(0,count($incidenicasEq)-1)][1],
                 'estado' => \App\Estado::findOrFail(rand(1,3))->descripcion,
-                'categoria' => \App\Categoria::findOrFail( rand(1,2))->descripcion,
-                'empresa_id' => 1,
+                'categoria' => \App\Categoria::findOrFail(2)->descripcion,
+                'empresa_id' => rand(1,2),
+                'created_at'=>Carbon::today()->subDays(rand(0, 765)),
+
+            ]);
+
+        }
+        for ($i = 1; $i <= 100; $i++) {
+
+            DB::table('incidencias')->insert([
+                'descripcion' => $incidenicasClie[rand(0,count($incidenicasClie)-1)][0],
+                'solucion' =>  $incidenicasClie[rand(0,count($incidenicasClie)-1)][1],
+                'estado' => \App\Estado::findOrFail(rand(1,3))->descripcion,
+                'categoria' => \App\Categoria::findOrFail(1)->descripcion,
+                'empresa_id' => rand(1,2),
                 'created_at'=>Carbon::today()->subDays(rand(0, 765)),
 
             ]);
