@@ -46,7 +46,7 @@ class CreateIndicadorsTable extends Migration
             $table->foreign('campo3_id')->references('id')->on('campos');
 
             $table->unsignedBigInteger('tabla1_id');
-            $table->unsignedBigInteger('tabla2_id');
+            $table->unsignedBigInteger('tabla2_id')->nullable();
 
             $table->foreign('tabla1_id')->references('id')->on('tablas');
             $table->foreign('tabla2_id')->references('id')->on('tablas');

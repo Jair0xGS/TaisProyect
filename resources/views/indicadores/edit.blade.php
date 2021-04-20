@@ -119,7 +119,10 @@
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('formula_id') }}</strong>
                                     </span>
-                        @endif <br><br><br><br>
+                        @endif <br><br>
+                        <div class="card p-4">
+                            <span class="text-main font-weight-bold">FÓRMULA: </span>{{$indicador->formula}}
+                        </div>
                         <img src="../../img/formulas2.jpg" alt="formula" style="width: 100%; position: relative; float: right">
                     </div>
 
@@ -152,27 +155,29 @@
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
-                                <select class="custom-select form-control-alternative"  name="campo1" id="campo1">
-                                    <option value="0" selected>- Seleccione un campo -</option>
+                                <select class="custom-select form-control-alternative"  name="campo1" id="campo1" onchange="mostrarCondicion1()">
+                                    <option value="{{$indicador->campo1->id}}" selected>{{$indicador->campo1->nombre}}</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-6">
-                                <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
-                                <input type="text" name="condicion1" id="condicion1" class="form-control form-control-alternative" placeholder="Campo 1" value="{{old('condición1')}}" >
-
+                                <label class="form-control-label" for="input-current-password">Condición 1 <span class="text-main">(Opcional)</span></label>
+                                <select class="custom-select form-control-alternative"  name="condicion1" id="condicion1">
+                                    <option value="{{$indicador->condicion1}}" selected>{{$indicador->condicion1}}</option>
+                                </select>
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
-                                <select class="custom-select form-control-alternative"  name="campo2" id="campo2">
-                                    <option value="0" selected>- Seleccione un campo -</option>
+                                <select class="custom-select form-control-alternative"  name="campo2" id="campo2" onchange="mostrarCondicion2()">
+                                    <option value="{{$indicador->campo2->id}}" selected>{{$indicador->campo2->nombre}}</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-6">
-                                <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
-                                <input type="text" name="condicion2" id="condicion2" class="form-control form-control-alternative" placeholder="Campo 2" value="{{old('condición2')}}" >
-                            </div>
+                                <label class="form-control-label" for="input-current-password">Condición 2 <span class="text-main">(Opcional)</span></label>
+                                <select class="custom-select form-control-alternative"  name="condicion2" id="condicion2">
+                                    <option value="{{$indicador->condicion2}}" selected>{{$indicador->condicion2}}</option>
+                                </select>                            </div>
 
                         </div><br>
                         <hr style="height: 1px">
@@ -204,15 +209,16 @@
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="input-current-password">Campo a condicionar <span class="text-main">(Opcional)</span></label>
-                                <select class="custom-select form-control-alternative"  name="campo3" id="campo3">
-                                    <option value="0" selected>- Seleccione un campo -</option>
+                                <select class="custom-select form-control-alternative"  name="campo3" id="campo3" onchange="mostrarCondicion3()">
+                                    <option value="{{$indicador->campo3->id}}" selected>{{$indicador->campo3->nombre}}</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-6">
-                                <label class="form-control-label" for="input-current-password">Condición <span class="text-main">(Opcional)</span></label>
-                                <input type="text" name="condicion3" id="condicion3" class="form-control form-control-alternative" placeholder="Campo" value="{{old('condición3')}}" >
-
+                                <label class="form-control-label" for="input-current-password">Condición 3 <span class="text-main">(Opcional)</span></label>
+                                <select class="custom-select form-control-alternative"  name="condicion3" id="condicion3">
+                                    <option value="{{$indicador->condicion3}}" selected>{{$indicador->condicion3}}</option>
+                                </select>
                             </div>
                         </div>
 
@@ -238,6 +244,7 @@
             </div>
         </form>
     </div>
+
     <script>
         $(document).ready(function(){
             $('#proceso_id').change(function(){
@@ -251,6 +258,15 @@
             });
             $('#tabla2').change(function(){
                 mostrarCampos2();
+            });
+            $('#campo1').change(function(){
+                mostrarCondicion1();
+            });
+            $('#campo2').change(function(){
+                mostrarCondicion2();
+            });
+            $('#campo3').change(function(){
+                mostrarCondicion3();
             });
         });
         function mostrarSubproceso(){
@@ -283,7 +299,7 @@
         }
         function mostrarCampos1(){
             idTable=$("#tabla1").val();
-            $.get('/ObtenerCampos1/'+idTable, function(data){
+            $.get('/ObtenerCampos/'+idTable, function(data){
 
                 var x = document.getElementById("campo1");
                 var y = document.getElementById("campo2");
@@ -311,7 +327,7 @@
         }
         function mostrarCampos2(){
             idTable=$("#tabla2").val();
-            $.get('/ObtenerCampos2/'+idTable, function(data){
+            $.get('/ObtenerCampos/'+idTable, function(data){
 
                 var x = document.getElementById("campo3");
                 for (let i = x.options.length; i > 0; i--) {
@@ -326,6 +342,120 @@
                     x.appendChild(option)
                 });
             });
+        }
+        function mostrarCondicion1(){
+            idCampo=$("#campo1").val();
+            if(idCampo==1)
+            {
+                $.get('/ObtenerEstado/'+idCampo, function(data){
+                    console.log(data);
+                    var x = document.getElementById("condicion1");
+                    for (let i = x.options.length; i > 0; i--) {
+                        x.remove(i);
+                    }
+                    var option = document.createElement("option");
+                    data.forEach(element => {
+
+                        var option=document.createElement("option");
+                        option.value= element.descripcion;
+                        option.text= element.descripcion;
+                        x.appendChild(option)
+                    });
+                });
+            } else{
+                console.log(2);
+                $.get('/ObtenerCategoria/'+idCampo, function(data){
+
+                    var x = document.getElementById("condicion1");
+                    for (let i = x.options.length; i > 0; i--) {
+                        x.remove(i);
+                    }
+                    var option = document.createElement("option");
+                    data.forEach(element => {
+
+                        var option=document.createElement("option");
+                        option.value= element.descripcion;
+                        option.text= element.descripcion;
+                        x.appendChild(option)
+                    });
+                });
+            }
+        }
+
+        function mostrarCondicion2(){
+            idCampo=$("#campo2").val();
+            if(idCampo==1)
+            {
+                $.get('/ObtenerEstado/'+idCampo, function(data){
+
+                    var x = document.getElementById("condicion2");
+                    for (let i = x.options.length; i > 0; i--) {
+                        x.remove(i);
+                    }
+                    var option = document.createElement("option");
+                    data.forEach(element => {
+
+                        var option=document.createElement("option");
+                        option.value= element.descripcion;
+                        option.text= element.descripcion;
+                        x.appendChild(option)
+                    });
+                });
+            } else{
+                $.get('/ObtenerCategoria/'+idCampo, function(data){
+
+                    var x = document.getElementById("condicion2");
+                    for (let i = x.options.length; i > 0; i--) {
+                        x.remove(i);
+                    }
+                    var option = document.createElement("option");
+                    data.forEach(element => {
+
+                        var option=document.createElement("option");
+                        option.value= element.descripcion;
+                        option.text= element.descripcion;
+                        x.appendChild(option)
+                    });
+                });
+            }
+        }
+
+        function mostrarCondicion3(){
+            idCampo=$("#campo3").val();
+            if(idCampo==1)
+            {
+                $.get('/ObtenerEstado/'+idCampo, function(data){
+
+                    var x = document.getElementById("condicion3");
+                    for (let i = x.options.length; i > 0; i--) {
+                        x.remove(i);
+                    }
+                    var option = document.createElement("option");
+                    data.forEach(element => {
+
+                        var option=document.createElement("option");
+                        option.value= element.descripcion;
+                        option.text= element.descripcion;
+                        x.appendChild(option)
+                    });
+                });
+            } else{
+                $.get('/ObtenerCategoria/'+idCampo, function(data){
+
+                    var x = document.getElementById("condicion3");
+                    for (let i = x.options.length; i > 0; i--) {
+                        x.remove(i);
+                    }
+                    var option = document.createElement("option");
+                    data.forEach(element => {
+
+                        var option=document.createElement("option");
+                        option.value= element.descripcion;
+                        option.text= element.descripcion;
+                        x.appendChild(option)
+                    });
+                });
+            }
         }
 
     </script>

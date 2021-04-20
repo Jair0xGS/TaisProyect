@@ -262,6 +262,12 @@
                                                 <p>Mostrar</p>
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('indicador.create')}}" class="nav-link offset-1">
+                                                <i class="far fa-plus-square nav-icon"></i>
+                                                <p>Registrar</p>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                                 </li>
@@ -355,6 +361,31 @@
 
                             </ul>
                             @endrole
+                            @role('supervisor')
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                                    with font-awesome or any other icon font library -->
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        <p>
+                                            INDICADORES
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{URL::to('/indicadores')}}" class="nav-link offset-1">
+                                                <i class="fas fa-cog nav-icon"></i>
+                                                <p>Mostrar</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                </li>
+
+                            </ul>
+                            @endrole
                             @role('super_admin')
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
@@ -401,37 +432,6 @@
                                 </li>
                             </ul>
                             @endrole
-
-
-                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                <!-- Add icons to the links using the .nav-icon class
-                                    with font-awesome or any other icon font library -->
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-user"></i>
-                                        <p>
-                                            PERFIL
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
-                                                <i class="fas fa-pen-square nav-icon"></i>
-                                                <p>Editar</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link offset-1">
-                                                <i class="far fa-eye nav-icon"></i>
-                                                <p>Ver</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                </li>
-
-                            </ul>
 
             </nav>
             <!-- /.sidebar-menu -->

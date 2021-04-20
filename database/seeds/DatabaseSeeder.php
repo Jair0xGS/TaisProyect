@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         $role= Role::create(['name' => 'user']);// ejemplo de rol
         $role= Role::create(['name' => 'supervisor']);// ejemplo de rol
         $userSuperAdmin = User::findOrFail(1);// buscan sus usuario
-        $userSuperAdmin->assignRole('admin'); // agregan su rol
+        $userSuperAdmin->assignRole('super_admin'); // agregan su rol
 
         $this->call(PerspectivaSeeder::class);
         $this->call(RelacionSeeder::class);
@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
         $this->call(FormulaSeeder::class);
         $this->call(TablaSeeder::class);
         $this->call(CampoSeeder::class);
+        $this->call(EstadoSeeder::class);
+        $this->call(CategoriaSeeder::class);
         DB::table('indicadors')->insert([
             'descripcion' => "descripcion",
             'mecanismo' => "mecanismo",

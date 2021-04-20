@@ -27,14 +27,14 @@ class Indicador extends Model
     }
 
     public function campo1(){
-        return $this->belongsTo('App\Campo','campo1_id','id');
+        return $this->belongsTo('App\Campos','campo1_id','id');
     }
 
     public function campo2(){
-        return $this->belongsTo('App\Campo','campo2_id','id');
+        return $this->belongsTo('App\Campos','campo2_id','id');
     }
     public function campo3(){
-        return $this->belongsTo('App\Campo','campo3_id','id');
+        return $this->belongsTo('App\Campos','campo3_id','id');
     }
 
 

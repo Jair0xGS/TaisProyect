@@ -1,5 +1,4 @@
 @role('super_admin')
-
 @extends('layouts.plantilla')
 
 @section('contenido')
@@ -19,15 +18,15 @@
                     <span class="ml-2" >REGISTRAR EMPRESA</span>
                 </a>
             </div>
-                <div class="col-md-6 col-sm-12">
-                    <form class="form-inline my-2 my-lg-0 float-right">
-                        <div class="form-group has-search">
+            <div class="col-md-6 col-sm-12">
+                <form class="form-inline my-2 my-lg-0 float-right">
+                    <div class="form-group has-search">
 
-                            <input type="search" placeholder="Buscar EMPRESA" value="{{$buscarpor}}" name="buscarPor" class="form-control mr-sm-2">
-                            <button class="btn my-2 my-sm-0 btn-dark float-right" type="submit">BUSCAR</button>
-                        </div>
-                    </form>
-                </div>
+                        <input type="search" placeholder="Buscar EMPRESA" value="{{$buscarpor}}" name="buscarPor" class="form-control mr-sm-2">
+                        <button class="btn my-2 my-sm-0 btn-dark float-right" type="submit">BUSCAR</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <br><br>

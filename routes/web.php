@@ -75,6 +75,8 @@ Route::get('intercambio/{id}/{id_select}', 'UserController@intercambio')->name('
 //Indicador routes
 Route::resource('/indicador', IndicadorController::class);
 Route::get('ObtenerSubproceso/{id}', 'IndicadorController@ObtenerSubproceso');
-Route::get('ObtenerCampos1/{id}', 'IndicadorController@ObtenerCampos1');
-Route::get('ObtenerCampos2/{id}', 'IndicadorController@ObtenerCampos2');
+Route::get('ObtenerCampos/{id}', 'IndicadorController@ObtenerCampos');
+Route::get('ObtenerCategoria/{id}', 'IndicadorController@ObtenerCategoria');
+Route::get('ObtenerEstado/{id}', 'IndicadorController@ObtenerEstado');
+Route::resource('/indicadores', IndicadoresController::class);
 //#####################
