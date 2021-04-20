@@ -1,4 +1,3 @@
-@role('user')
 
     @extends('layouts.plantilla')
 
@@ -15,7 +14,7 @@
         <div class="row justify-content-center ">
             <div class="color-titulo mb-4 mt-2" style="font-size: 30px">
                 <i class="fas fa-briefcase color-icono"></i>
-                <span class="font-weight-bold ml-3" > INCIDENCIAS </span>
+                <span class="font-weight-bold ml-3" > TABLEROS</span>
             </div>
         </div>
         <div class="row ">
@@ -26,92 +25,123 @@
 
                     </div>
                     <div class="col-2 mb-3">
-                        <a href="{{route('incidencia.create')}}" class="btn btn-primary" role="button" aria-pressed="true">
+                        <a href="{{route('tablero.create',Request()->indicador)}}" class="btn btn-primary" role="button" aria-pressed="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                             </svg>
-                            Nueva Incidencia
+                            Nuevo Tablero
                         </a>
                     </div>
                 </div>
                 <div class="row mb-5">
-                    <div class="col">
+                    @foreach($data as $elem)
+                        <div class="col-12 my-4">
+                            <div class="container">
+                                <div class="row ">
+                                    <h3>{{$elem->descripcion}}</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                    <table class="table table-bordered " style="text-align: center">
+                                        <thead>
+                                        <tr  >
+                                            <th colspan="{{5+ $elem->semaforo->count()}}" scope="col">{{$indicador->descripcion}}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row" rowspan="2">Formula</th>
+                                            <th scope="row" rowspan="2">Frecuencia de Medicion</th>
+                                            <th scope="row"  colspan="3">SEMAFORO</th>
+                                            <th scope="row" colspan="{{$elem->semaforo->count()}}">
+                                                {{$elem->frecuencia}}
+                                            </th>
 
-                        <table class="table mb-5">
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-success"></td>
+                                            <td class="bg-warning"></td>
+                                            <td class="bg-danger"></td>
+                                            @foreach($elem->semaforo as $sem)
 
-                            <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Descripcion</th>
-                                <th scope="col">Solucion</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Categoria</th>
-                                <th scope="col">Opciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($data as $elem)
+                                            <td
+                                                class="{{$sem["color"]}}">{{$sem["fecha"]}}</td>
 
-                                <tr>
-                                    <td>
-                                        {{$elem->id}}
-                                    </td>
-                                    <td>
-                                        {{$elem->descripcion}}
-                                    </td>
-                                    <td>
-                                        {{$elem->solucion}}
-                                    </td>
-                                    <td>
-                                        {{$elem->estado}}
-                                    </td>
-                                    <td>
-                                        {{$elem->categoria}}
-                                    </td>
-                                    <td>
-                                        <div class="color-titulo row" style="font-size: 25px">
-                                        @if($elem->estado != "Solucionado")
-                                            <a href="{{route('incidencia.edit',[
-                                                            $elem->id
-                                                            ])}}" class="col-4 p-0" aria-pressed="true"><i class="fas fa-pen-square btn-editar"></i>
-                                            </a>
-                                            @endif
-                                            <a  class="col-4 p-0" aria-pressed="true"><i class="fas fa-trash-alt btn-eliminar" aria-pressed="true" data-toggle="modal" data-target="#exampleModal{{$elem->id}}"></i>
-                                            </a>
+                                                @endforeach
 
-                                            <div class="modal fade" id="exampleModal{{$elem->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Borrado</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Seguro que desea borrar esta incidencia ?
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                            {!! Form::open(['action' => ['IncidenciaController@destroy',$elem->id],'method'=>'POST']) !!}
-                                                            {{Form::hidden('_method','DELETE')}}
-                                                            {{Form::submit('Borrar',['class'=>'btn btn-dark'])}}
-                                                            {!! Form::close() !!}
+                                        </tr>
+                                        <tr>
+                                            <td >{{$indicador->formula}}</td>
+                                            <td>{{$elem->frecuencia}}</td>
+                                            <td >
+                                                @if($elem->verde_operador == '>')
+                                                    Mas de
+                                                @endif
+                                                @if($elem->verde_operador == '<')
+                                                    Menos de
+                                                @endif
+                                                @if($elem->verde_operador == '>=')
+                                                    Mas o igual que
+                                                @endif
+                                                @if($elem->verde_operador == '<=')
+                                                    Menos o igual que
+                                                @endif
+                                                {{$elem->verde}}
+                                            </td>
+                                            <td >
+                                                @if($elem->verde_operador == '>')
+                                                    Menos o igual que
+                                                @endif
+                                                @if($elem->verde_operador == '<')
+                                                    Mas o igual que
+                                                @endif
+                                                @if($elem->verde_operador == '>=')
+                                                    Menos de
+                                                @endif
+                                                @if($elem->verde_operador == '<=')
+                                                    Mas de
+                                                @endif
+                                                {{$elem->verde}},
+                                                    @if($elem->verde_operador == '>')
+                                                        Mas de
+                                                    @endif
+                                                    @if($elem->verde_operador == '<')
+                                                        Menos de
+                                                    @endif
+                                                    @if($elem->verde_operador == '>=')
+                                                        Mas o igual que
+                                                    @endif
+                                                    @if($elem->verde_operador == '<=')
+                                                        Menos o igual que
+                                                    @endif
+                                                    {{$elem->amarillo}}</td>
+                                            <td >
+                                                @if($elem->verde_operador == '>')
+                                                    Menos o igual que
+                                                @endif
+                                                @if($elem->verde_operador == '<')
+                                                    Mas o igual que
+                                                @endif
+                                                @if($elem->verde_operador == '>=')
+                                                    Menos de
+                                                @endif
+                                                @if($elem->verde_operador == '<=')
+                                                    Mas de
+                                                @endif{{$elem->amarillo}}</td>
+                                            @foreach($elem->semaforo as $sem)
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <td>{{$sem["numero"]}}</td>
 
-                                        </div>
-                                    </td>
-                                </tr>
+                                            @endforeach
+                                        </tr>
 
-                            @endforeach
-                            </tbody>
-                        </table>
-
-                    </div>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
 
                 </div>
 
@@ -119,5 +149,3 @@
         </div>
     </div>
 @endsection
-
-@endrole

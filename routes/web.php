@@ -26,6 +26,7 @@ Route::resource("/empresa/{empresa}/proceso/{proceso}/subproceso",SubProcesoCont
 Route::resource("/empresa/{empresa}/proceso/{proceso}/mapa_estrategico",MapaEstrategicoController::class);
 Route::resource("/empresa/{empresa}/proceso/{proceso}/mapa_estrategico/{mapa_estrategico}/estrategia",EstrategiaController::class);
 Route::resource("/incidencia",IncidenciaController::class);
+Route::resource("/indicador/{indicador}/tablero",TableroController::class);
 //***********
 
 

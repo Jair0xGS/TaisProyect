@@ -14,6 +14,10 @@ class Indicador extends Model
         return $this->belongsTo('App\Formula','formula_id','id');
     }
 
+    public function tableros(){
+        return $this->hasMany('App\Tablero');
+    }
+
     public function tabla1(){
         return $this->belongsTo('App\Tabla','tabla1_id','id');
     }

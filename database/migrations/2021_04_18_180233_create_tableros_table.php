@@ -21,6 +21,7 @@ class CreateTablerosTable extends Migration
             $table->float("rojo");
             $table->float("amarillo");
             $table->float("verde");
+            $table->string("verde_operador");
             $table->unsignedBigInteger('indicador_id');
             $table->foreign('indicador_id')->references('id')->on('indicadors');
 

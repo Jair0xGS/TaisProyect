@@ -39,7 +39,7 @@ class PuestoController extends Controller
      */
     public function store(Request $request)
     {
-        $data=request()->validate([
+        request()->validate([
             'nombre'=>'required'
         ],
             [
