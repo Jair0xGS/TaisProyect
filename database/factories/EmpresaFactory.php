@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(Empresa::class, function (Faker $faker) {
     return [
         'descripcion'=>$faker->company,
-        'ruc'=>"1231231232",
+        'ruc'=>$faker->regexify('[1-9]{9}'),
         'nombre'=>$faker->name,
         'telefono'=>$faker->phoneNumber,
         'email'=>$faker->companyEmail,
