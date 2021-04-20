@@ -14,17 +14,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('users')->insert([
+            'name' => "Administrador",
+            'email' => "admin@admin.com",
+            'password' => \Illuminate\Support\Facades\Hash::make("password"),
+
+        ]);
         $this->call(EmpresaSeeder::class);
         $this->call(TipoProcesoSeeder::class);
         $this->call(AreaSeeder::class);
         $this->call(ProcesoSeeder::class);
-        DB::table('users')->insert([
-            'name' => "Administrador",
-            'email' => "admin@admin.com",
-            'empresa_id'=>1,
-            'password' => \Illuminate\Support\Facades\Hash::make("password"),
 
-        ]);
         $role= Role::create(['name' => 'super_admin']);// ejemplo de rol
         $role= Role::create(['name' => 'admin']);// ejemplo de rol
         $role= Role::create(['name' => 'user']);// ejemplo de rol
