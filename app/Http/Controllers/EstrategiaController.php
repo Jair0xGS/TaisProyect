@@ -67,7 +67,7 @@ class EstrategiaController extends Controller
                 $estrategia->relacion_id = $request->relacion_id;
                 $estrategia->nombre = $request->nombre;
                 $estrategia->save();
-                if (isset($request->estrategia_id )){
+                if ($request->estrategia_id !=null){
                     foreach ( $request->estrategia_id as $est) {
                         if ($est != null){
                             $reff = new EstrategiaRelacion();

@@ -64,7 +64,6 @@
                             null,
                             [
                                 'class'=> eClass( $errors->getBag('default')->first('estrategia_id')),
-                                'placeholder'=>'Estrategia a Referenciar',
                                  'multiple' ,
                                  'disabled' ,
                                 'id'=>'estrategia_id'
@@ -133,7 +132,6 @@
 
         console.log("lenght options select "+selEstrategia.options.length)
         selEstrategia.innerHTML=null;
-        selEstrategia.add(new Option( "Estrategia a Refereneciar" ));
 
 
         for (var ix in allEstrategias) {

@@ -14,10 +14,10 @@ class RelacionSeeder extends Seeder
         $relaciones = [
             [
                 "Estrategias Propias del proceso",
-                "green",
+                "white",
             ],[
                 "Estrategias fuera del alcance del proceso",
-                "green",
+                "#A9B3F6",
             ],
 
         ];
